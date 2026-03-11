@@ -1,32 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--
-   ______                            __
-  / ____/___  ____ ___  ____  __  __/ /____  _____
- / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
-/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
-\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
-                    /_/
-        Created with Perplexity Computer
-        https://www.perplexity.ai/computer
--->
-
-<!-- Perplexity Computer Attribution — SEO Meta Tags -->
-<meta name="generator" content="Perplexity Computer">
-<meta name="author" content="Perplexity Computer">
-<meta property="og:see_also" content="https://www.perplexity.ai/computer">
-<link rel="author" href="https://www.perplexity.ai/computer">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIDEN — Architecture Intake &amp; Decision Engine</title>
-<meta name="description" content="Enterprise AI governance workbench. Reduce first-pass review failure rate and reviewer time for internal AI proposals. Buy the shell, build the brain.">
-
+<meta name="description" content="Enterprise AI governance workbench. Reduce first-pass review failure rate and reviewer time for internal AI proposals.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -38,12 +19,7 @@
           <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
           <path d="M8 22L16 8L24 22H8Z" stroke="#fff" stroke-width="2" fill="none"/>
           <circle cx="16" cy="17" r="3" fill="#D4A843"/>
-          <defs>
-            <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32">
-              <stop offset="0%" stop-color="#0A6E75"/>
-              <stop offset="100%" stop-color="#085A60"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32"><stop offset="0%" stop-color="#0A6E75"/><stop offset="100%" stop-color="#085A60"/></linearGradient></defs>
         </svg>
       </div>
       <div class="logo-text">
@@ -51,7 +27,6 @@
         <span class="logo-sub">Decision Engine</span>
       </div>
     </div>
-
     <nav class="sidebar-nav">
       <button class="nav-item active" data-tab="hero" onclick="switchTab('hero')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -59,11 +34,11 @@
       </button>
       <button class="nav-item" data-tab="copilot" onclick="switchTab('copilot')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <span>Author Copilot</span>
+        <span>Architect Agent</span>
       </button>
       <button class="nav-item" data-tab="reviewer" onclick="switchTab('reviewer')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <span>Review Engine</span>
+        <span>Reviewer Agent</span>
       </button>
       <button class="nav-item" data-tab="delta" onclick="switchTab('delta')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
@@ -74,7 +49,6 @@
         <span>Architecture</span>
       </button>
     </nav>
-
     <div class="sidebar-footer">
       <div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -103,45 +77,40 @@
           </button>
           <button class="btn-secondary" onclick="switchTab('architecture')">View Architecture</button>
         </div>
-
         <div class="seeded-banner">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Demo runs on <strong>seeded synthetic data</strong> &mdash; realistic precedents and reviewer behavior. Real org memory accumulates over time.</span>
+          <span>Demo supports three modes: <strong>Deterministic</strong> (scripted, no API), <strong>Shadow</strong> (side-by-side comparison), and <strong>Live Assist</strong> (real agent calls). Select mode in each agent tab.</span>
         </div>
-
-        <!-- Buy the Shell, Build the Brain -->
         <div class="hero-grid">
           <div class="hero-card">
-            <div class="hero-card-icon" style="background: rgba(10,110,117,0.15); color: #0A6E75;">
+            <div class="hero-card-icon" style="background:rgba(10,110,117,0.15);color:#0A6E75;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <h3>Author Copilot</h3>
+            <h3>Architect Agent</h3>
             <p>Guides teams through building proposals that will pass review. Catches gaps in real time, suggests remediations, generates architecture views before any reviewer sees the work.</p>
           </div>
           <div class="hero-card">
-            <div class="hero-card-icon" style="background: rgba(212,168,67,0.15); color: #D4A843;">
+            <div class="hero-card-icon" style="background:rgba(212,168,67,0.15);color:#D4A843;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
-            <h3>Review Engine</h3>
+            <h3>Reviewer Agent</h3>
             <p>Four-outcome evaluator (pass / fail / abstain / degrade) runs against pinned policies. Produces R_eff scores, evidence packs, and explicit gate decisions with human oversight.</p>
           </div>
           <div class="hero-card">
-            <div class="hero-card-icon" style="background: rgba(168,85,247,0.1); color: #a855f7;">
+            <div class="hero-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
             </div>
             <h3>Delta Engine</h3>
             <p>Computes the minimum set of changes to reach APPROVE. Ranks items by R_eff impact per unit effort. Searches exception history for viable waiver paths.</p>
           </div>
           <div class="hero-card">
-            <div class="hero-card-icon" style="background: rgba(34,197,94,0.1); color: #22c55e;">
+            <div class="hero-card-icon" style="background:rgba(34,197,94,0.1);color:#22c55e;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <h3>Exception Intelligence</h3>
             <p>Learns from prior approvals, waivers, and rejections. Surfaces how similar situations were resolved, with estimated approval probability and suggested conditions.</p>
           </div>
         </div>
-
-        <!-- Moat -->
         <div class="moat-banner">
           <div class="moat-label">The Moat</div>
           <div class="moat-text">
@@ -149,30 +118,16 @@
             <br><span style="font-size:11px;color:var(--text-muted);font-style:italic;">Metric projections are assumption-based demo telemetry. Validate against production data within 90 days.</span>
           </div>
         </div>
-
-        <!-- Demo Scenario -->
         <div class="demo-context">
           <div class="demo-context-header">
             <div class="demo-context-title">Demo Scenario</div>
             <div class="demo-context-badge">internal-tool tier</div>
           </div>
           <div class="demo-meta">
-            <div class="demo-meta-item">
-              <span class="demo-meta-label">Proposal</span>
-              <span class="demo-meta-value">AI Code Review Assistant</span>
-            </div>
-            <div class="demo-meta-item">
-              <span class="demo-meta-label">Integration</span>
-              <span class="demo-meta-value">GitHub Enterprise + Azure OpenAI</span>
-            </div>
-            <div class="demo-meta-item">
-              <span class="demo-meta-label">Users</span>
-              <span class="demo-meta-value">~300 internal engineers</span>
-            </div>
-            <div class="demo-meta-item">
-              <span class="demo-meta-label">Expected R_eff</span>
-              <span class="demo-meta-value">0.69 &rarr; CONDITIONAL</span>
-            </div>
+            <div class="demo-meta-item"><span class="demo-meta-label">Proposal</span><span class="demo-meta-value">AI Code Review Assistant</span></div>
+            <div class="demo-meta-item"><span class="demo-meta-label">Integration</span><span class="demo-meta-value">GitHub Enterprise + Azure OpenAI</span></div>
+            <div class="demo-meta-item"><span class="demo-meta-label">Users</span><span class="demo-meta-value">~300 internal engineers</span></div>
+            <div class="demo-meta-item"><span class="demo-meta-label">Expected R_eff</span><span class="demo-meta-value">0.69 &rarr; CONDITIONAL</span></div>
           </div>
           <div class="scope-fields">
             <div class="scope-fields-label">Scope Fields (proposal.yaml)</div>
@@ -190,280 +145,143 @@
       </div>
     </section>
 
-    <!-- ================ COPILOT TAB ================ -->
+    <!-- ================ ARCHITECT AGENT TAB ================ -->
     <section class="tab-content" id="tab-copilot">
-      <div class="copilot-layout">
-        <!-- Chat Panel -->
-        <div class="chat-panel">
-          <div class="panel-header">
-            <div class="panel-header-left">
-              <div class="agent-indicator copilot-agent"></div>
-              <div>
-                <div class="panel-title">Author Copilot</div>
-                <div class="panel-subtitle">Proposal Builder &middot; Gap Detection</div>
-              </div>
-            </div>
-            <div class="step-counter" id="stepCounter">Step <span id="currentStep">1</span> of 6</div>
-          </div>
-          <div class="chat-messages" id="chatMessages">
-            <!-- Messages injected by JS -->
-          </div>
-          <div class="chat-input-area">
-            <button class="btn-primary btn-next" id="nextBtn" onclick="advanceChat()">
-              <span id="nextBtnText">Begin Assessment</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
+      <div class="mode-toggle-bar">
+        <div class="panel-header-left">
+          <div class="agent-indicator copilot-agent"></div>
+          <div><div class="panel-title">Architect Agent</div><div class="panel-subtitle">Proposal Builder &middot; Gap Detection</div></div>
         </div>
+        <div class="mode-toggle" id="architectModeToggle">
+          <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','architect')">Deterministic</button>
+          <button class="mode-btn" data-mode="shadow" onclick="setMode('shadow','architect')">Shadow</button>
+          <button class="mode-btn" data-mode="live-assist" onclick="setMode('live-assist','architect')">Live Assist</button>
+        </div>
+      </div>
+      <div class="error-banner hidden" id="architectError">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="architectErrorMsg"></span>
+        <button class="btn-fallback" onclick="setMode('deterministic','architect')">Fall back to Deterministic</button>
+      </div>
 
-        <!-- Proposal Panel -->
-        <div class="proposal-panel">
-          <div class="panel-header">
-            <div class="panel-header-left">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <div>
-                <div class="panel-title">Proposal Template</div>
-                <div class="panel-subtitle">AI Code Review Assistant &mdash; internal-tool</div>
-              </div>
+      <!-- Deterministic view -->
+      <div id="architectDeterministicView">
+        <div class="copilot-layout">
+          <div class="chat-panel">
+            <div class="panel-header"><div class="panel-header-left"><div class="step-counter" id="stepCounter">Step <span id="currentStep">1</span> of 6</div></div></div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+              <button class="btn-primary btn-next" id="nextBtn" onclick="advanceChat()"><span id="nextBtnText">Begin Assessment</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
             </div>
-            <div class="proposal-progress" id="proposalProgress">0% Complete</div>
           </div>
-          <div class="proposal-body" id="proposalBody">
-            <div class="proposal-section" id="ps-overview">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-overview">1</span>
-                <span>Solution Overview</span>
-              </div>
-              <div class="proposal-section-content" id="content-overview">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
+          <div class="proposal-panel">
+            <div class="panel-header">
+              <div class="panel-header-left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div><div class="panel-title">Proposal Template</div><div class="panel-subtitle">AI Code Review Assistant &mdash; internal-tool</div></div></div>
+              <div class="proposal-progress" id="proposalProgress">0% Complete</div>
             </div>
-            <div class="proposal-section" id="ps-data">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-data">2</span>
-                <span>Data &amp; Privacy</span>
-              </div>
-              <div class="proposal-section-content" id="content-data">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
-            </div>
-            <div class="proposal-section" id="ps-arch">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-arch">3</span>
-                <span>Architecture</span>
-              </div>
-              <div class="proposal-section-content" id="content-arch">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
-            </div>
-            <div class="proposal-section" id="ps-security">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-security">4</span>
-                <span>Security</span>
-              </div>
-              <div class="proposal-section-content" id="content-security">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
-            </div>
-            <div class="proposal-section" id="ps-ops">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-ops">5</span>
-                <span>Operations</span>
-              </div>
-              <div class="proposal-section-content" id="content-ops">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
-            </div>
-            <div class="proposal-section" id="ps-gov">
-              <div class="proposal-section-header">
-                <span class="section-check" id="check-gov">6</span>
-                <span>Governance</span>
-              </div>
-              <div class="proposal-section-content" id="content-gov">
-                <div class="proposal-placeholder">Awaiting input...</div>
-              </div>
+            <div class="proposal-body" id="proposalBody">
+              <div class="proposal-section" id="ps-overview"><div class="proposal-section-header"><span class="section-check" id="check-overview">1</span><span>Solution Overview</span></div><div class="proposal-section-content" id="content-overview"><div class="proposal-placeholder">Awaiting input...</div></div></div>
+              <div class="proposal-section" id="ps-data"><div class="proposal-section-header"><span class="section-check" id="check-data">2</span><span>Data &amp; Privacy</span></div><div class="proposal-section-content" id="content-data"><div class="proposal-placeholder">Awaiting input...</div></div></div>
+              <div class="proposal-section" id="ps-arch"><div class="proposal-section-header"><span class="section-check" id="check-arch">3</span><span>Architecture</span></div><div class="proposal-section-content" id="content-arch"><div class="proposal-placeholder">Awaiting input...</div></div></div>
+              <div class="proposal-section" id="ps-security"><div class="proposal-section-header"><span class="section-check" id="check-security">4</span><span>Security</span></div><div class="proposal-section-content" id="content-security"><div class="proposal-placeholder">Awaiting input...</div></div></div>
+              <div class="proposal-section" id="ps-ops"><div class="proposal-section-header"><span class="section-check" id="check-ops">5</span><span>Operations</span></div><div class="proposal-section-content" id="content-ops"><div class="proposal-placeholder">Awaiting input...</div></div></div>
+              <div class="proposal-section" id="ps-gov"><div class="proposal-section-header"><span class="section-check" id="check-gov">6</span><span>Governance</span></div><div class="proposal-section-content" id="content-gov"><div class="proposal-placeholder">Awaiting input...</div></div></div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Live-Assist view -->
+      <div class="live-result-view hidden" id="architectLiveView">
+        <div class="live-result-container">
+          <div class="loading-overlay hidden" id="architectLoading"><div class="spinner"></div><span>Running Architect Agent&hellip; this may take 10&ndash;30s</span></div>
+          <div id="architectLiveResult"></div>
+        </div>
+      </div>
+
+      <!-- Shadow view -->
+      <div class="shadow-view hidden" id="architectShadowView">
+        <div class="shadow-layout">
+          <div class="shadow-panel shadow-left"><div class="shadow-panel-header">Deterministic Output</div><div class="shadow-panel-body" id="architectShadowDeterministic"></div></div>
+          <div class="shadow-panel shadow-right"><div class="shadow-panel-header">Live Agent Output <div class="loading-inline hidden" id="architectShadowLoading"><div class="spinner-sm"></div></div></div><div class="shadow-panel-body" id="architectShadowLive"></div></div>
+        </div>
+      </div>
+
+      <!-- Safety & Trace panels -->
+      <div class="safety-panel hidden" id="architectSafetyPanel">
+        <button class="safety-panel-toggle" onclick="togglePanel('architectSafetyPanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Safety &amp; Budget <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="safety-panel-body" id="architectSafetyBody"></div>
+      </div>
+      <div class="trace-panel hidden" id="architectTracePanel">
+        <button class="trace-panel-toggle" onclick="togglePanel('architectTracePanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Agent Trace <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="trace-panel-body" id="architectTraceBody"></div>
+      </div>
     </section>
 
-    <!-- ================ REVIEWER TAB ================ -->
+    <!-- ================ REVIEWER AGENT TAB ================ -->
     <section class="tab-content" id="tab-reviewer">
-      <div class="reviewer-layout">
-        <div class="reviewer-header-bar">
-          <div class="panel-header-left">
-            <div class="agent-indicator reviewer-agent"></div>
-            <div>
-              <div class="panel-title">Review Engine</div>
-              <div class="panel-subtitle">Four-Outcome Evaluator &middot; Pinned Policies v2026.03</div>
-            </div>
-          </div>
-          <button class="btn-primary" id="startReviewBtn" onclick="startReview()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span>Run Review</span>
-          </button>
+      <div class="mode-toggle-bar">
+        <div class="panel-header-left">
+          <div class="agent-indicator reviewer-agent"></div>
+          <div><div class="panel-title">Reviewer Agent</div><div class="panel-subtitle">Four-Outcome Evaluator &middot; Pinned Policies v2026.03</div></div>
         </div>
+        <div class="mode-toggle" id="reviewerModeToggle">
+          <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','reviewer')">Deterministic</button>
+          <button class="mode-btn" data-mode="shadow" onclick="setMode('shadow','reviewer')">Shadow</button>
+          <button class="mode-btn" data-mode="live-assist" onclick="setMode('live-assist','reviewer')">Live Assist</button>
+        </div>
+      </div>
+      <div class="error-banner hidden" id="reviewerError">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="reviewerErrorMsg"></span>
+        <button class="btn-fallback" onclick="setMode('deterministic','reviewer')">Fall back to Deterministic</button>
+      </div>
 
-        <div class="reviewer-body">
-          <!-- Overall Assessment -->
-          <div class="overall-assessment" id="overallAssessment">
-            <div class="assessment-waiting">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              <span>Click "Run Review" to evaluate proposal against pinned enterprise policies</span>
-            </div>
+      <!-- Deterministic view -->
+      <div id="reviewerDeterministicView">
+        <div class="reviewer-layout">
+          <div class="reviewer-header-bar">
+            <button class="btn-primary" id="startReviewBtn" onclick="startReview()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Run Review</span></button>
           </div>
-
-          <!-- Review Sections -->
-          <div class="review-sections" id="reviewSections">
-
-            <!-- Data & Privacy: strong section -->
-            <div class="review-section" id="rev-data" data-score="88">
-              <div class="review-section-header">
-                <div class="review-section-title">Data &amp; Privacy</div>
-                <div class="review-score-container">
-                  <div class="review-score-bar"><div class="review-score-fill" data-target="88"></div></div>
-                  <span class="review-score-num">&mdash;</span>
-                </div>
-              </div>
-              <div class="review-findings">
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; No PHI/PII processing confirmed. Data classification (Confidential) declared. Azure OpenAI enterprise tenant with opt-out from training.</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Data residency within enterprise Azure boundary. No external egress path. Code diffs processed transiently.</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Retention policy documented: PR comments in GitHub, audit logs in SIEM (2 years). Consistent with internal-tool tier requirements.</span>
-                </div>
-                <div class="finding degrade-finding">
-                  <span class="finding-icon">&#8595;</span>
-                  <span><strong>degrade</strong> &mdash; No explicit data classification label in proposal YAML. Classification inferred from narrative. Proceeding with reduced confidence.</span>
-                </div>
-              </div>
+          <div class="reviewer-body">
+            <div class="overall-assessment" id="overallAssessment">
+              <div class="assessment-waiting"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>Click "Run Review" to evaluate proposal against pinned enterprise policies</span></div>
             </div>
-
-            <!-- Security: weakest section -->
-            <div class="review-section" id="rev-security" data-score="69">
-              <div class="review-section-header">
-                <div class="review-section-title">Security</div>
-                <div class="review-score-container">
-                  <div class="review-score-bar"><div class="review-score-fill" data-target="69"></div></div>
-                  <span class="review-score-num">&mdash;</span>
-                </div>
-              </div>
-              <div class="review-findings">
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Managed identity for Azure OpenAI (no stored API keys). Private key in Azure Key Vault. mTLS within AKS.</span>
-                </div>
-                <div class="finding gap">
-                  <span class="finding-icon">&#10006;</span>
-                  <span><strong>fail</strong> &mdash; SEC-RBAC-002: No break-glass emergency access procedure documented. Required even for internal tools per enterprise security policy.</span>
-                </div>
-                <div class="finding gap">
-                  <span class="finding-icon">&#10006;</span>
-                  <span><strong>fail</strong> &mdash; SEC-VUL-002: No binary authorization or equivalent deploy-time integrity verification. Container images scanned but not signed.</span>
-                </div>
-                <div class="finding abstain-finding">
-                  <span class="finding-icon">?</span>
-                  <span><strong>abstain</strong> &mdash; SEC-NET-003: Network segmentation for the AKS namespace not documented. Evidence missing; blocks confidence in lateral movement controls.</span>
-                </div>
-              </div>
+            <div class="review-sections" id="reviewSections">
+              <div class="review-section" id="rev-data" data-score="88"><div class="review-section-header"><div class="review-section-title">Data &amp; Privacy</div><div class="review-score-container"><div class="review-score-bar"><div class="review-score-fill" data-target="88"></div></div><span class="review-score-num">&mdash;</span></div></div><div class="review-findings"><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; No PHI/PII processing confirmed. Data classification (Confidential) declared. Azure OpenAI enterprise tenant with opt-out from training.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Data residency within enterprise Azure boundary. No external egress path.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Retention policy documented: PR comments in GitHub, audit logs in SIEM (2 years).</span></div><div class="finding degrade-finding"><span class="finding-icon">&#8595;</span><span><strong>degrade</strong> &mdash; No explicit data classification label in proposal YAML. Classification inferred from narrative.</span></div></div></div>
+              <div class="review-section" id="rev-security" data-score="69"><div class="review-section-header"><div class="review-section-title">Security</div><div class="review-score-container"><div class="review-score-bar"><div class="review-score-fill" data-target="69"></div></div><span class="review-score-num">&mdash;</span></div></div><div class="review-findings"><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Managed identity for Azure OpenAI. Private key in Azure Key Vault. mTLS within AKS.</span></div><div class="finding gap"><span class="finding-icon">&#10006;</span><span><strong>fail</strong> &mdash; SEC-RBAC-002: No break-glass emergency access procedure documented.</span></div><div class="finding gap"><span class="finding-icon">&#10006;</span><span><strong>fail</strong> &mdash; SEC-VUL-002: No binary authorization. Container images scanned but not signed.</span></div><div class="finding abstain-finding"><span class="finding-icon">?</span><span><strong>abstain</strong> &mdash; SEC-NET-003: Network segmentation for AKS namespace not documented.</span></div></div></div>
+              <div class="review-section" id="rev-arch" data-score="85"><div class="review-section-header"><div class="review-section-title">Architecture</div><div class="review-score-container"><div class="review-score-bar"><div class="review-score-fill" data-target="85"></div></div><span class="review-score-num">&mdash;</span></div></div><div class="review-findings"><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; AKS-based deployment consistent with approved internal platform patterns.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; GitHub App integration using webhooks. Graceful degradation documented.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Azure OpenAI enterprise tenant with managed identity. Token limits documented.</span></div><div class="finding abstain-finding"><span class="finding-icon">?</span><span><strong>abstain</strong> &mdash; ARCH-SCALE-001: No load testing results. Expected load low but no empirical validation.</span></div></div></div>
+              <div class="review-section" id="rev-ops" data-score="79"><div class="review-section-header"><div class="review-section-title">Operations</div><div class="review-score-container"><div class="review-score-bar"><div class="review-score-fill" data-target="79"></div></div><span class="review-score-num">&mdash;</span></div></div><div class="review-findings"><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Monitoring stack documented (Azure Monitor + custom metrics). Alert thresholds defined.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; CI/CD pipeline with rolling updates and auto-rollback. One-click disable.</span></div><div class="finding gap"><span class="finding-icon">&#10006;</span><span><strong>fail</strong> &mdash; OPS-RUN-001: No runbook for AI-specific failure modes.</span></div><div class="finding degrade-finding"><span class="finding-icon">&#8595;</span><span><strong>degrade</strong> &mdash; OPS-SLA-001: "No formal SLA" stated. Recovery expectations should be documented.</span></div></div></div>
+              <div class="review-section" id="rev-gov" data-score="72"><div class="review-section-header"><div class="review-section-title">Governance</div><div class="review-score-container"><div class="review-score-bar"><div class="review-score-fill" data-target="72"></div></div><span class="review-score-num">&mdash;</span></div></div><div class="review-findings"><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; AI suggestions clearly labeled. Confidence indicators present. Human override at every level.</span></div><div class="finding strength"><span class="finding-icon">&#10004;</span><span><strong>pass</strong> &mdash; Model lifecycle documented: golden test suite validation, version pinning, rollback.</span></div><div class="finding degrade-finding"><span class="finding-icon">&#8595;</span><span><strong>degrade</strong> &mdash; GOV-BIAS-001: Quarterly spot-check (20 reviews) is minimal. Define specific bias metrics.</span></div><div class="finding degrade-finding"><span class="finding-icon">&#8595;</span><span><strong>degrade</strong> &mdash; GOV-RESP-002: No process for handling harmful AI suggestions that bypass engineer review.</span></div></div></div>
             </div>
-
-            <!-- Architecture: solid -->
-            <div class="review-section" id="rev-arch" data-score="85">
-              <div class="review-section-header">
-                <div class="review-section-title">Architecture</div>
-                <div class="review-score-container">
-                  <div class="review-score-bar"><div class="review-score-fill" data-target="85"></div></div>
-                  <span class="review-score-num">&mdash;</span>
-                </div>
-              </div>
-              <div class="review-findings">
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; AKS-based deployment consistent with approved internal platform patterns. Single-region appropriate for internal-tool tier (multi-region waived).</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; GitHub App integration using webhooks and scoped service account. Graceful degradation documented (PRs proceed without AI review).</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Azure OpenAI enterprise tenant with managed identity. Token context limits documented (8K). Fallback behavior defined.</span>
-                </div>
-                <div class="finding abstain-finding">
-                  <span class="finding-icon">?</span>
-                  <span><strong>abstain</strong> &mdash; ARCH-SCALE-001: No load testing results. Expected load (~200 PRs/day) is low, but no empirical validation of HPA scaling behavior.</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Operations: decent -->
-            <div class="review-section" id="rev-ops" data-score="79">
-              <div class="review-section-header">
-                <div class="review-section-title">Operations</div>
-                <div class="review-score-container">
-                  <div class="review-score-bar"><div class="review-score-fill" data-target="79"></div></div>
-                  <span class="review-score-num">&mdash;</span>
-                </div>
-              </div>
-              <div class="review-findings">
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Monitoring stack documented (Azure Monitor + custom metrics). Alert thresholds defined. Teams channel notifications configured.</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; CI/CD pipeline with rolling updates and auto-rollback. Container scanning in pipeline. One-click disable via GitHub App.</span>
-                </div>
-                <div class="finding gap">
-                  <span class="finding-icon">&#10006;</span>
-                  <span><strong>fail</strong> &mdash; OPS-RUN-001: No runbook for AI-specific failure modes (hallucinated security advice, model degradation). Standard incident playbook insufficient.</span>
-                </div>
-                <div class="finding degrade-finding">
-                  <span class="finding-icon">&#8595;</span>
-                  <span><strong>degrade</strong> &mdash; OPS-SLA-001: "No formal SLA" stated. Internal-tool tier permits best-effort, but recovery time expectations should be documented.</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Governance: weakish -->
-            <div class="review-section" id="rev-gov" data-score="72">
-              <div class="review-section-header">
-                <div class="review-section-title">Governance</div>
-                <div class="review-score-container">
-                  <div class="review-score-bar"><div class="review-score-fill" data-target="72"></div></div>
-                  <span class="review-score-num">&mdash;</span>
-                </div>
-              </div>
-              <div class="review-findings">
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; AI suggestions clearly labeled. Confidence indicators present. Human override at every level (dismiss, disable per-repo, disable org-wide).</span>
-                </div>
-                <div class="finding strength">
-                  <span class="finding-icon">&#10004;</span>
-                  <span><strong>pass</strong> &mdash; Model lifecycle documented: golden test suite validation, version pinning, rollback procedure defined.</span>
-                </div>
-                <div class="finding degrade-finding">
-                  <span class="finding-icon">&#8595;</span>
-                  <span><strong>degrade</strong> &mdash; GOV-BIAS-001: Quarterly spot-check (20 reviews) is minimal. Bias monitoring framework should define specific metrics, not just spot-checks.</span>
-                </div>
-                <div class="finding degrade-finding">
-                  <span class="finding-icon">&#8595;</span>
-                  <span><strong>degrade</strong> &mdash; GOV-RESP-002: No documented process for handling harmful AI suggestions that bypass engineer review (e.g., insecure code patterns endorsed by AI).</span>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
+      </div>
+
+      <!-- Live-Assist view -->
+      <div class="live-result-view hidden" id="reviewerLiveView">
+        <div class="live-result-container">
+          <div class="loading-overlay hidden" id="reviewerLoading"><div class="spinner"></div><span>Running Reviewer Agent&hellip; this may take 10&ndash;30s</span></div>
+          <div id="reviewerLiveResult"></div>
+        </div>
+      </div>
+
+      <!-- Shadow view -->
+      <div class="shadow-view hidden" id="reviewerShadowView">
+        <div class="shadow-layout">
+          <div class="shadow-panel shadow-left"><div class="shadow-panel-header">Deterministic Output</div><div class="shadow-panel-body" id="reviewerShadowDeterministic"></div></div>
+          <div class="shadow-panel shadow-right"><div class="shadow-panel-header">Live Agent Output <div class="loading-inline hidden" id="reviewerShadowLoading"><div class="spinner-sm"></div></div></div><div class="shadow-panel-body" id="reviewerShadowLive"></div></div>
+        </div>
+      </div>
+
+      <!-- Safety & Trace panels -->
+      <div class="safety-panel hidden" id="reviewerSafetyPanel">
+        <button class="safety-panel-toggle" onclick="togglePanel('reviewerSafetyPanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Safety &amp; Budget <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="safety-panel-body" id="reviewerSafetyBody"></div>
+      </div>
+      <div class="trace-panel hidden" id="reviewerTracePanel">
+        <button class="trace-panel-toggle" onclick="togglePanel('reviewerTracePanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Agent Trace <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="trace-panel-body" id="reviewerTraceBody"></div>
       </div>
     </section>
 
@@ -471,94 +289,26 @@
     <section class="tab-content" id="tab-delta">
       <div class="delta-layout">
         <div class="delta-header-bar">
-          <div class="panel-header-left">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
-            <div>
-              <div class="panel-title">Proposal-to-Approval Delta Engine</div>
-              <div class="panel-subtitle">Bottleneck-Aware Selection &middot; Minimum Path to APPROVE</div>
-            </div>
-          </div>
-          <button class="btn-primary" id="startDeltaBtn" onclick="startDelta()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span>Compute Delta</span>
-          </button>
+          <div class="panel-header-left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg><div><div class="panel-title">Proposal-to-Approval Delta Engine</div><div class="panel-subtitle">Bottleneck-Aware Selection &middot; Minimum Path to APPROVE</div></div></div>
+          <button class="btn-primary" id="startDeltaBtn" onclick="startDelta()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Compute Delta</span></button>
         </div>
-
         <div class="delta-body">
-          <!-- Algorithm explanation -->
-          <div class="delta-algo-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <span>Overall R_eff = <strong>min(section R_effs)</strong>. The delta engine fixes the bottleneck section first, then selects the minimum set of changes to cross the approve threshold.</span>
-          </div>
-
-          <!-- Current vs Target -->
+          <div class="delta-algo-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>Overall R_eff = <strong>min(section R_effs)</strong>. The delta engine fixes the bottleneck section first, then selects the minimum set of changes to cross the approve threshold.</span></div>
           <div class="delta-current">
-            <div class="delta-current-left">
-              <span class="delta-current-label">Current R_eff</span>
-              <span class="delta-current-value">0.69</span>
-            </div>
+            <div class="delta-current-left"><span class="delta-current-label">Current R_eff</span><span class="delta-current-value">0.69</span></div>
             <div class="delta-arrow">&rarr;</div>
-            <div class="delta-target-left">
-              <span class="delta-target-label">Approve Threshold</span>
-              <span class="delta-target-value">&ge; 0.75</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:2px;">
-              <span class="delta-current-label">Bottleneck</span>
-              <span style="font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--amber);">Security (0.69)</span>
-            </div>
+            <div class="delta-target-left"><span class="delta-target-label">Approve Threshold</span><span class="delta-target-value">&ge; 0.75</span></div>
+            <div style="display:flex;flex-direction:column;gap:2px;"><span class="delta-current-label">Bottleneck</span><span style="font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--amber);">Security (0.69)</span></div>
           </div>
-
-          <!-- Selected Delta Items (minimum set) -->
           <div class="delta-section-label">Selected Path <span class="delta-count-badge">1 item</span></div>
           <div class="delta-items">
-            <div class="delta-item">
-              <div class="delta-item-header">
-                <div>
-                  <div class="delta-item-rule">SEC-VUL-002</div>
-                  <div class="delta-item-title">Waive binary authorization for internal-tool tier</div>
-                </div>
-              </div>
-              <div class="delta-item-desc">
-                Document why Trivy container scanning is sufficient for internal-tool tier. SEC-VUL-002 severity is downgraded to <code>high</code> via tiers.yaml severity_adjustments. Waiving removes it from evaluable, which eliminates one high-severity penalty (&minus;0.03) and increases R_raw by shifting the ratio. Net impact: <strong>+0.137</strong>.
-              </div>
-              <div class="delta-item-meta">
-                <span class="delta-meta-tag meta-action-waive">waive</span>
-                <span class="delta-meta-tag meta-effort-low">effort: low</span>
-                <span class="delta-meta-tag meta-impact">R_eff +0.137</span>
-                <span class="delta-meta-tag meta-precedent">5 prior waivers at internal-tool (confidence: 0.82)</span>
-              </div>
-            </div>
+            <div class="delta-item"><div class="delta-item-header"><div><div class="delta-item-rule">SEC-VUL-002</div><div class="delta-item-title">Waive binary authorization for internal-tool tier</div></div></div><div class="delta-item-desc">Document why Trivy container scanning is sufficient for internal-tool tier. SEC-VUL-002 severity is downgraded to <code>high</code> via tiers.yaml severity_adjustments. Waiving removes it from evaluable, which eliminates one high-severity penalty (&minus;0.03) and increases R_raw by shifting the ratio. Net impact: <strong>+0.137</strong>.</div><div class="delta-item-meta"><span class="delta-meta-tag meta-action-waive">waive</span><span class="delta-meta-tag meta-effort-low">effort: low</span><span class="delta-meta-tag meta-impact">R_eff +0.137</span><span class="delta-meta-tag meta-precedent">5 prior waivers at internal-tool (confidence: 0.82)</span></div></div>
           </div>
-
-          <!-- Projection -->
-          <div class="delta-projection" id="deltaProjection">
-            <div class="delta-projection-label">Projected After Delta</div>
-            <div class="delta-projection-outcome">R_eff = 0.827 &rarr; <span style="color:var(--green);font-weight:700;">APPROVE</span></div>
-            <div style="font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">round(0.827 &times; 100) = 83 &middot; confidence: 0.82 &middot; 1 item &middot; effort: low</div>
-          </div>
-
-          <!-- Alternative Paths -->
+          <div class="delta-projection" id="deltaProjection"><div class="delta-projection-label">Projected After Delta</div><div class="delta-projection-outcome">R_eff = 0.827 &rarr; <span style="color:var(--green);font-weight:700;">APPROVE</span></div><div style="font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">round(0.827 &times; 100) = 83 &middot; confidence: 0.82 &middot; 1 item &middot; effort: low</div></div>
           <div class="delta-section-label alt-label">Alternative Paths <span class="delta-count-badge alt-badge">1 remaining item</span></div>
           <div class="delta-items delta-alt-items">
-            <div class="delta-item delta-alt-item">
-              <div class="delta-item-header">
-                <div>
-                  <div class="delta-item-rule">SEC-RBAC-002</div>
-                  <div class="delta-item-title">Implement break-glass emergency access procedure</div>
-                </div>
-              </div>
-              <div class="delta-item-desc">
-                Document emergency access procedure for the GitHub App and AKS namespace. Include: who can invoke, what it disables, how to restore, and audit trail requirements. Template available from the platform security team. Not required for APPROVE at current tier, but improves defense-in-depth.
-              </div>
-              <div class="delta-item-meta">
-                <span class="delta-meta-tag meta-action-remediate">remediate</span>
-                <span class="delta-meta-tag meta-effort-low">effort: low</span>
-                <span class="delta-meta-tag meta-impact">R_eff +0.03</span>
-                <span class="delta-meta-tag meta-precedent">3 prior waivers (confidence: 0.71)</span>
-              </div>
-            </div>
+            <div class="delta-item delta-alt-item"><div class="delta-item-header"><div><div class="delta-item-rule">SEC-RBAC-002</div><div class="delta-item-title">Implement break-glass emergency access procedure</div></div></div><div class="delta-item-desc">Document emergency access procedure for the GitHub App and AKS namespace. Not required for APPROVE at current tier, but improves defense-in-depth.</div><div class="delta-item-meta"><span class="delta-meta-tag meta-action-remediate">remediate</span><span class="delta-meta-tag meta-effort-low">effort: low</span><span class="delta-meta-tag meta-impact">R_eff +0.03</span><span class="delta-meta-tag meta-precedent">3 prior waivers (confidence: 0.71)</span></div></div>
           </div>
-
           <div class="seeded-note">Precedent data is seeded synthetic &mdash; real confidence improves as the system accumulates actual review decisions.</div>
         </div>
       </div>
@@ -567,111 +317,25 @@
     <!-- ================ ARCHITECTURE TAB ================ -->
     <section class="tab-content" id="tab-architecture">
       <div class="arch-layout">
-        <div class="arch-header">
-          <h2 class="arch-title">System Architecture</h2>
-          <p class="arch-subtitle">Buy the shell, build the brain &middot; .NET 8 + TypeScript</p>
-        </div>
-
-        <!-- Tech Stack -->
+        <div class="arch-header"><h2 class="arch-title">System Architecture</h2><p class="arch-subtitle">Buy the shell, build the brain &middot; .NET 8 + TypeScript</p></div>
         <div class="arch-stack-banner">
-          <div class="stack-item">
-            <span class="stack-label">API Layer</span>
-            <span class="stack-value">.NET 8 Minimal API</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-label">Engine</span>
-            <span class="stack-value">TypeScript / Node.js</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-label">Policies</span>
-            <span class="stack-value">YAML (git-versioned)</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-label">Infra</span>
-            <span class="stack-value">Docker Compose</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-label">Tooling</span>
-            <span class="stack-value">Python 3.12</span>
-          </div>
-          <div class="stack-item">
-            <span class="stack-label">Evaluator</span>
-            <span class="stack-value">4-outcome guard</span>
-          </div>
+          <div class="stack-item"><span class="stack-label">API Layer</span><span class="stack-value">.NET 8 Minimal API</span></div>
+          <div class="stack-item"><span class="stack-label">Engine</span><span class="stack-value">TypeScript / Node.js</span></div>
+          <div class="stack-item"><span class="stack-label">Policies</span><span class="stack-value">YAML (git-versioned)</span></div>
+          <div class="stack-item"><span class="stack-label">Infra</span><span class="stack-value">Docker Compose</span></div>
+          <div class="stack-item"><span class="stack-label">Tooling</span><span class="stack-value">Python 3.12</span></div>
+          <div class="stack-item"><span class="stack-label">Evaluator</span><span class="stack-value">4-outcome guard</span></div>
         </div>
-
-        <!-- Tier Cards -->
         <div class="tier-grid">
-          <div class="tier-card active-tier">
-            <div class="tier-name">internal-tool</div>
-            <div class="tier-thresholds">
-              <div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.75</span></div>
-              <div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.40</span></div>
-              <div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">180 days</span></div>
-            </div>
-          </div>
-          <div class="tier-card">
-            <div class="tier-name">production</div>
-            <div class="tier-thresholds">
-              <div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.85</span></div>
-              <div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.50</span></div>
-              <div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">90 days</span></div>
-            </div>
-          </div>
-          <div class="tier-card">
-            <div class="tier-name">critical-infrastructure</div>
-            <div class="tier-thresholds">
-              <div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.95</span></div>
-              <div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.70</span></div>
-              <div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">30 days</span></div>
-            </div>
-          </div>
+          <div class="tier-card active-tier"><div class="tier-name">internal-tool</div><div class="tier-thresholds"><div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.75</span></div><div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.40</span></div><div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">180 days</span></div></div></div>
+          <div class="tier-card"><div class="tier-name">production</div><div class="tier-thresholds"><div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.85</span></div><div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.50</span></div><div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">90 days</span></div></div></div>
+          <div class="tier-card"><div class="tier-name">critical-infrastructure</div><div class="tier-thresholds"><div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.95</span></div><div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.70</span></div><div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">30 days</span></div></div></div>
         </div>
-
-        <!-- Architecture Details -->
         <div class="arch-details">
-          <div class="arch-detail-card">
-            <h4>What AIDEN Owns (The Brain)</h4>
-            <p>Enterprise-specific reasoning no vendor can ship:</p>
-            <ul>
-              <li><strong>Policy interpretation</strong> &mdash; Your tiers, waiver semantics, tier-rule mappings. Reflects decades of compliance decisions and audit findings.</li>
-              <li><strong>Exception history</strong> &mdash; Which exception paths have been approved, by whom, with what rationale and precedent weight.</li>
-              <li><strong>Waiver semantics</strong> &mdash; What constitutes a valid waiver, who can grant it, how long it lasts, what triggers re-evaluation.</li>
-              <li><strong>Authoring logic</strong> &mdash; Minimum delta to move a proposal from Draft to ReviewReady under a specific tier and policy set.</li>
-              <li><strong>SoD paths</strong> &mdash; Separation-of-duties rules tied to your actual org structure, not generic role templates.</li>
-            </ul>
-          </div>
-          <div class="arch-detail-card">
-            <h4>What We Integrate (The Shell)</h4>
-            <p>Commodity products that handle surfaces and generic governance:</p>
-            <ul>
-              <li><strong>ServiceNow</strong> &mdash; Workflow routing, ticket management, approval chains. UI surface for reviewers.</li>
-              <li><strong>LeanIX</strong> &mdash; Architecture catalog, dependency mapping, portfolio views.</li>
-              <li><strong>Backstage</strong> &mdash; Developer portal, service catalog, tech radar. Self-service surface for teams.</li>
-              <li><strong>Credo AI / watsonx</strong> &mdash; Generic AI scorecards, policy-pack scaffolding. Complementary to AIDEN, not replaced by it.</li>
-            </ul>
-          </div>
-          <div class="arch-detail-card">
-            <h4>Guard &rarr; Gate Separation</h4>
-            <p>Guards and gates are deliberately separate concerns:</p>
-            <ul>
-              <li><strong>Guard</strong> &mdash; What the evidence says. Four outcomes: pass, fail, abstain, degrade. Deterministic. No judgment.</li>
-              <li><strong>Gate</strong> &mdash; What to do about it. Thresholds, SoD checks, overrides, waivers, autonomy budgets, human judgment.</li>
-              <li><strong>Fold behavior</strong> &mdash; Engine errors, timeouts, and unknowns fold to BLOCK with human escalation. Infrastructure failures are separate from proposal failures.</li>
-              <li><strong>Decision log</strong> &mdash; Every gate decision records outcome, rationale, tier, waivers applied, and override requirements.</li>
-            </ul>
-          </div>
-          <div class="arch-detail-card">
-            <h4>R_eff Scoring</h4>
-            <p>Effective reliability computed per section, overall = weakest link:</p>
-            <ul>
-              <li><strong>R_raw</strong> &mdash; passed / (passed + failed + degraded). Abstained rules excluded from ratio.</li>
-              <li><strong>Penalty</strong> &mdash; critical_fails &times; 0.05 + high_fails &times; 0.03. Severity matters, not just count.</li>
-              <li><strong>Degradation</strong> &mdash; degraded_count &times; 0.02. Missing evidence costs confidence.</li>
-              <li><strong>R_eff</strong> &mdash; max(0, R_raw &minus; penalty &minus; degradation). Display: <code>round(R_eff &times; 100)</code></li>
-              <li><strong>Overall</strong> &mdash; min(R_eff_i) across all sections. Weakest link, not average.</li>
-            </ul>
-          </div>
+          <div class="arch-detail-card"><h4>What AIDEN Owns (The Brain)</h4><p>Enterprise-specific reasoning no vendor can ship:</p><ul><li><strong>Policy interpretation</strong> &mdash; Your tiers, waiver semantics, tier-rule mappings.</li><li><strong>Exception history</strong> &mdash; Which exception paths have been approved, by whom, with what rationale.</li><li><strong>Waiver semantics</strong> &mdash; What constitutes a valid waiver, who can grant it, how long it lasts.</li><li><strong>Authoring logic</strong> &mdash; Minimum delta to move a proposal from Draft to ReviewReady.</li><li><strong>SoD paths</strong> &mdash; Separation-of-duties rules tied to your actual org structure.</li></ul></div>
+          <div class="arch-detail-card"><h4>What We Integrate (The Shell)</h4><p>Commodity products that handle surfaces and generic governance:</p><ul><li><strong>ServiceNow</strong> &mdash; Workflow routing, ticket management, approval chains.</li><li><strong>LeanIX</strong> &mdash; Architecture catalog, dependency mapping, portfolio views.</li><li><strong>Backstage</strong> &mdash; Developer portal, service catalog, tech radar.</li><li><strong>Credo AI / watsonx</strong> &mdash; Generic AI scorecards, policy-pack scaffolding.</li></ul></div>
+          <div class="arch-detail-card"><h4>Guard &rarr; Gate Separation</h4><p>Guards and gates are deliberately separate concerns:</p><ul><li><strong>Guard</strong> &mdash; What the evidence says. Four outcomes: pass, fail, abstain, degrade.</li><li><strong>Gate</strong> &mdash; What to do about it. Thresholds, SoD checks, overrides, waivers.</li><li><strong>Fold behavior</strong> &mdash; Engine errors fold to BLOCK with human escalation.</li><li><strong>Decision log</strong> &mdash; Every gate decision records outcome, rationale, tier, waivers applied.</li></ul></div>
+          <div class="arch-detail-card"><h4>R_eff Scoring</h4><p>Effective reliability computed per section, overall = weakest link:</p><ul><li><strong>R_raw</strong> &mdash; passed / (passed + failed + degraded). Abstained rules excluded.</li><li><strong>Penalty</strong> &mdash; critical_fails &times; 0.05 + high_fails &times; 0.03.</li><li><strong>Degradation</strong> &mdash; degraded_count &times; 0.02.</li><li><strong>R_eff</strong> &mdash; max(0, R_raw &minus; penalty &minus; degradation). Display: <code>round(R_eff &times; 100)</code></li><li><strong>Overall</strong> &mdash; min(R_eff_i) across all sections. Weakest link, not average.</li></ul></div>
         </div>
       </div>
     </section>
@@ -679,7 +343,7 @@
     <!-- FOOTER -->
     <footer class="app-footer">
       <span>AIDEN Demo &mdash; modern-literacy &middot; github.com/modern-literacy</span>
-      <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      <span id="apiStatus" class="api-status"></span>
     </footer>
   </main>
 
