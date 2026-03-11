@@ -2,7 +2,7 @@
 
 Stakeholder-facing interactive demo for the AIDEN (Architecture Intake & Decision Engine) system.
 
-**Live demo:** https://aiden-demo-venikmans-projects.vercel.app
+**Live demo:** https://aiden-demo.vercel.app
 
 ## Overview
 
@@ -27,7 +27,7 @@ Both the Architect and Reviewer tabs support three operating modes:
 
 The `API_BASE_URL` variable in `app.js` controls the backend:
 
-- Current: `https://aiden-engine-venikmans-projects.vercel.app`
+- Current: `https://aiden-engine.vercel.app`
 - Set to empty string `''` to force deterministic-only mode (no API calls).
 
 The backend repo is [modern-literacy/aiden-engine](https://github.com/modern-literacy/aiden-engine).
