@@ -106,6 +106,30 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .seeded-banner svg { color: var(--amber); flex-shrink: 0; }
 .seeded-banner strong { color: var(--amber); }
 .seeded-note { font-size: 11px; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 12px; }
+.public-contract { background: linear-gradient(180deg, rgba(10,110,117,0.12), rgba(10,110,117,0.04)); border: 1px solid rgba(94,234,212,0.12); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 24px; }
+.public-contract-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.public-contract-title { font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.02em; }
+.public-contract-badge { font-size: 10px; font-weight: 600; padding: 4px 8px; border-radius: 999px; background: rgba(94,234,212,0.12); color: var(--teal-300); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+.public-contract-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.contract-item { background: rgba(12,17,24,0.35); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.contract-label { font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.contract-value { font-size: 13px; color: var(--text-primary); }
+.demo-warning-banner { display: flex; align-items: flex-start; gap: 10px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+.demo-warning-banner strong { color: #fca5a5; }
+.demo-warning-banner code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #fecaca; background: rgba(239,68,68,0.12); padding: 1px 4px; border-radius: 4px; }
+.demo-context-note { background: rgba(10,110,117,0.08); border: 1px solid rgba(94,234,212,0.12); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+.demo-context-note strong { color: var(--teal-300); }
+.delta-scenario-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 14px; flex-wrap: wrap; }
+.delta-scenario-toggle { display: inline-flex; align-items: center; gap: 4px; padding: 3px; border-radius: var(--radius); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); }
+.delta-scenario-btn { border: none; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; padding: 7px 12px; cursor: pointer; transition: all var(--duration) var(--ease); }
+.delta-scenario-btn:hover { color: var(--text-primary); }
+.delta-scenario-btn.active { background: var(--bg-elevated); color: var(--gold-400); }
+.delta-scenario-pill { font-size: 11px; color: var(--text-secondary); background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.16); border-radius: 999px; padding: 6px 10px; }
+.delta-scenario-summary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; }
+.delta-scenario-heading { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.delta-scenario-copy { font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+.safety-contract-blurb { margin-bottom: 14px; background: rgba(10,110,117,0.08); border: 1px solid rgba(94,234,212,0.12); border-radius: var(--radius); padding: 12px 14px; font-size: 12px; line-height: 1.6; color: var(--text-secondary); }
+.safety-contract-blurb strong { color: var(--teal-300); }
 
 /* Scope Fields */
 .scope-fields { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }

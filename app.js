@@ -70,11 +70,113 @@ var SAMPLE_PROPOSAL = {
   }
 };
 
+var DELTA_SCENARIOS = {
+  'remediation-first': {
+    label: 'Remediation-First',
+    summary: 'Public-safe default. The best path fixes missing controls before the reviewer considers any exception path.',
+    current_reff: '0.72',
+    target_reff: '\u2265 0.75',
+    bottleneck: 'Security (0.72)',
+    selected_count: '2 items',
+    selected_items: [
+      {
+        rule: 'SEC-RBAC-002',
+        title: 'Implement break-glass emergency access procedure',
+        description: 'Document emergency access for the GitHub App and AKS namespace. This removes a high-severity fail and gives reviewers explicit recovery evidence.',
+        tags: [
+          { className: 'meta-action-remediate', label: 'remediate' },
+          { className: 'meta-effort-low', label: 'effort: low' },
+          { className: 'meta-impact', label: 'R_eff +0.03' },
+          { className: 'meta-precedent', label: 'control remediation preferred' }
+        ]
+      },
+      {
+        rule: 'SEC-VUL-002',
+        title: 'Enable image signing and binary authorization',
+        description: 'Sign release images and enforce admission checks for deployed artifacts. This clears the remaining bottleneck without relying on a waiver.',
+        tags: [
+          { className: 'meta-action-remediate', label: 'remediate' },
+          { className: 'meta-effort-low', label: 'effort: medium' },
+          { className: 'meta-impact', label: 'R_eff +0.09' },
+          { className: 'meta-precedent', label: 'control hardening path' }
+        ]
+      }
+    ],
+    projection_reff: '0.81',
+    projection_meta: 'round(0.81 \u00d7 100) = 81 \u00b7 confidence: 0.79 \u00b7 2 items \u00b7 effort: medium',
+    alternative_label: 'Alternative Path',
+    alternative_count: '1 exception path',
+    alternative_items: [
+      {
+        rule: 'SEC-VUL-002',
+        title: 'Use a tier-scoped waiver for binary authorization',
+        description: 'Available only because the sample is internal-tool tier with compensating controls and synthetic precedent history. Useful for demonstrating exception intelligence, but not the public default.',
+        tags: [
+          { className: 'meta-action-waive', label: 'waive' },
+          { className: 'meta-effort-low', label: 'effort: low' },
+          { className: 'meta-impact', label: 'R_eff +0.06' },
+          { className: 'meta-precedent', label: 'illustrative exception path' }
+        ]
+      }
+    ]
+  },
+  'exception-intelligence': {
+    label: 'Exception Intelligence',
+    summary: 'Illustrative exception intelligence view. This keeps the waiver-heavy scenario visible so evaluators can see how AIDEN reasons about scoped exceptions.',
+    current_reff: '0.69',
+    target_reff: '\u2265 0.75',
+    bottleneck: 'Security (0.69)',
+    selected_count: '1 item',
+    selected_items: [
+      {
+        rule: 'SEC-VUL-002',
+        title: 'Waive binary authorization for internal-tool tier',
+        description: 'Document why Trivy scanning is sufficient for the current tier. This exception path is retained to show exception intelligence, not because waivers are the preferred first impression.',
+        tags: [
+          { className: 'meta-action-waive', label: 'waive' },
+          { className: 'meta-effort-low', label: 'effort: low' },
+          { className: 'meta-impact', label: 'R_eff +0.137' },
+          { className: 'meta-precedent', label: '5 synthetic precedents (confidence: 0.82)' }
+        ]
+      }
+    ],
+    projection_reff: '0.827',
+    projection_meta: 'round(0.827 \u00d7 100) = 83 \u00b7 confidence: 0.82 \u00b7 1 item \u00b7 effort: low',
+    alternative_label: 'Alternative Paths',
+    alternative_count: '2 remediation items',
+    alternative_items: [
+      {
+        rule: 'SEC-RBAC-002',
+        title: 'Implement break-glass emergency access procedure',
+        description: 'Document emergency access procedure for the GitHub App and AKS namespace. This improves defense-in-depth and remains the cleaner long-term control posture.',
+        tags: [
+          { className: 'meta-action-remediate', label: 'remediate' },
+          { className: 'meta-effort-low', label: 'effort: low' },
+          { className: 'meta-impact', label: 'R_eff +0.03' },
+          { className: 'meta-precedent', label: 'control remediation path' }
+        ]
+      },
+      {
+        rule: 'SEC-VUL-002',
+        title: 'Enable image signing and binary authorization',
+        description: 'Implement the control instead of waiving it when the team can absorb a slightly higher delivery cost.',
+        tags: [
+          { className: 'meta-action-remediate', label: 'remediate' },
+          { className: 'meta-effort-low', label: 'effort: medium' },
+          { className: 'meta-impact', label: 'R_eff +0.09' },
+          { className: 'meta-precedent', label: 'preferred control closure' }
+        ]
+      }
+    ]
+  }
+};
+
 /* ---- State ---- */
 var architectMode = 'deterministic';
 var reviewerMode = 'deterministic';
 var lastArchitectResponse = null;
 var lastReviewerResponse = null;
+var deltaScenarioId = 'remediation-first';
 
 /* ---- Tab Switching ---- */
 function switchTab(tabId) {
@@ -87,12 +189,28 @@ function switchTab(tabId) {
 }
 
 /* ---- Mode Toggle ---- */
-function setMode(mode, agent) {
+function setMode(mode, agent, options) {
+  options = options || {};
   if (!API_BASE_URL && mode !== 'deterministic') {
     showError(agent, 'API_BASE_URL is not configured. Set it in app.js to enable live modes.');
     return;
   }
+  applyModeState(mode, agent);
 
+  if (options.skipRun) {
+    return;
+  }
+
+  if (agent === 'architect') {
+    if (mode === 'live-assist') { runArchitectLive(); }
+    else if (mode === 'shadow') { runArchitectShadow(); }
+  } else {
+    if (mode === 'live-assist') { runReviewerLive(); }
+    else if (mode === 'shadow') { runReviewerShadow(); }
+  }
+}
+
+function applyModeState(mode, agent) {
   var toggleId = agent === 'architect' ? 'architectModeToggle' : 'reviewerModeToggle';
   document.querySelectorAll('#' + toggleId + ' .mode-btn').forEach(function(b) { b.classList.remove('active'); });
   document.querySelector('#' + toggleId + ' [data-mode="' + mode + '"]').classList.add('active');
@@ -101,14 +219,10 @@ function setMode(mode, agent) {
     architectMode = mode;
     hideError('architect');
     toggleView('architect', mode);
-    if (mode === 'live-assist') { runArchitectLive(); }
-    else if (mode === 'shadow') { runArchitectShadow(); }
   } else {
     reviewerMode = mode;
     hideError('reviewer');
     toggleView('reviewer', mode);
-    if (mode === 'live-assist') { runReviewerLive(); }
-    else if (mode === 'shadow') { runReviewerShadow(); }
   }
 }
 
@@ -145,6 +259,22 @@ function hideError(agent) {
   document.getElementById(agent + 'Error').classList.add('hidden');
 }
 
+function liveAssistFallbackMessage(err) {
+  var message = err && err.message ? err.message : '';
+  if (/rate limit|quota|429/i.test(message)) {
+    return 'Live assist unavailable or quota-limited. Budget-limited live assist is paused; deterministic fallback is active.';
+  }
+  if (/OPENROUTER_API_KEY/i.test(message)) {
+    return 'Live assist is not enabled on this deployment. Deterministic fallback is active.';
+  }
+  return 'Live assist unavailable. Deterministic fallback is active.';
+}
+
+function fallbackToDeterministic(agent, err) {
+  setMode('deterministic', agent, { skipRun: true });
+  showError(agent, liveAssistFallbackMessage(err));
+}
+
 /* ---- API Client ---- */
 function callApi(endpoint, mode) {
   return fetch(API_BASE_URL + '/api/' + endpoint, {
@@ -153,7 +283,9 @@ function callApi(endpoint, mode) {
     body: JSON.stringify({ proposal: SAMPLE_PROPOSAL, mode: mode })
   }).then(function(res) {
     if (!res.ok) {
-      return res.json().then(function(body) {
+      return res.json().catch(function() {
+        return {};
+      }).then(function(body) {
         throw new Error(body.error || 'HTTP ' + res.status);
       });
     }
@@ -176,7 +308,7 @@ function runArchitectLive() {
     renderTracePanel('architect', data);
   }).catch(function(err) {
     loading.classList.add('hidden');
-    showError('architect', err.message);
+    fallbackToDeterministic('architect', err);
   });
 }
 
@@ -201,7 +333,7 @@ function runArchitectShadow() {
     renderTracePanel('architect', data);
   }).catch(function(err) {
     loadingEl.classList.add('hidden');
-    showError('architect', err.message);
+    fallbackToDeterministic('architect', err);
   });
 }
 
@@ -220,7 +352,7 @@ function runReviewerLive() {
     renderTracePanel('reviewer', data);
   }).catch(function(err) {
     loading.classList.add('hidden');
-    showError('reviewer', err.message);
+    fallbackToDeterministic('reviewer', err);
   });
 }
 
@@ -245,7 +377,7 @@ function runReviewerShadow() {
     renderTracePanel('reviewer', data);
   }).catch(function(err) {
     loadingEl.classList.add('hidden');
-    showError('reviewer', err.message);
+    fallbackToDeterministic('reviewer', err);
   });
 }
 
@@ -384,8 +516,9 @@ function renderSafetyPanel(agent, data) {
     : ['policy-lookup', 'precedent-lookup', 'delta-check', 'schema-validate'];
 
   var statusColor = data.safety_status === 'ok' ? 'var(--green)' : 'var(--red)';
-  var html = '<div class="safety-grid">';
+  var html = '<div class=\"safety-contract-blurb\"><strong>Public Demo Contract:</strong> sanitized sample data, no autonomous writes, no open-web browsing, human review required, tool allowlist enforced, deterministic fallback when live assist is unavailable.</div><div class=\"safety-grid\">';
   html += safetyItem('Mode', data.mode || '—');
+  html += safetyItem('Provider', 'OpenRouter');
   html += safetyItem('Model', trace.model || 'minimax/minimax-m2.5');
   html += safetyItem('Safety Status', '<span style="color:' + statusColor + ';">' + esc(data.safety_status || '—') + '</span>');
   html += safetyItem('Steps', (bs.steps_used || 0) + ' / ' + (bs.steps_limit || '—'));
@@ -396,6 +529,9 @@ function renderSafetyPanel(agent, data) {
   html += safetyItem('Input Safety', sc.input_check ? (sc.input_check.passed ? '✓ passed' : '✗ ' + esc(sc.input_check.reason || 'failed')) : '—');
   html += safetyItem('Output Safety', sc.output_check ? (sc.output_check.passed ? '✓ passed' : '✗ ' + esc(sc.output_check.reason || 'failed')) : '—');
   html += safetyItem('Redaction', 'enabled');
+  html += safetyItem('Autonomous Writes', 'disabled');
+  html += safetyItem('Open-Web Browsing', 'not allowed');
+  html += safetyItem('Human Review', 'required');
   html += safetyItem('Escalation', data.safety_status === 'flagged' ? '<span style="color:var(--red);">triggered</span>' : 'none');
   html += safetyItem('Trace ID', '<code>' + esc(data.trace_id || '—') + '</code>');
   if (trace.deterministic_fallback_used) {
@@ -708,6 +844,61 @@ function showOverallAssessment() {
 
 /* ---- Delta Engine ---- */
 var deltaStarted = false;
+function renderDeltaItems(items, isAlt) {
+  return items.map(function(item) {
+    var classes = 'delta-item' + (isAlt ? ' delta-alt-item' : '');
+    var tags = item.tags.map(function(tag) {
+      return '<span class=\"delta-meta-tag ' + tag.className + '\">' + esc(tag.label) + '</span>';
+    }).join('');
+    return '<div class=\"' + classes + '\"><div class=\"delta-item-header\"><div><div class=\"delta-item-rule\">' + esc(item.rule) + '</div><div class=\"delta-item-title\">' + esc(item.title) + '</div></div></div><div class=\"delta-item-desc\">' + esc(item.description) + '</div><div class=\"delta-item-meta\">' + tags + '</div></div>';
+  }).join('');
+}
+
+function resetDeltaState() {
+  deltaStarted = false;
+  var btn = document.getElementById('startDeltaBtn');
+  if (btn) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = '<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polygon points=\"5 3 19 12 5 21 5 3\"/></svg><span>Compute Delta</span>';
+  }
+  var algoNote = document.querySelector('.delta-algo-note');
+  if (algoNote) { algoNote.classList.remove('revealed'); }
+  var projection = document.getElementById('deltaProjection');
+  if (projection) { projection.classList.remove('revealed'); }
+  var altLabel = document.querySelector('.alt-label');
+  if (altLabel) { altLabel.classList.remove('revealed'); }
+  document.querySelectorAll('.delta-item').forEach(function(item) {
+    item.classList.remove('revealed');
+    item.classList.remove('applied');
+  });
+}
+
+function renderDeltaScenario() {
+  var scenario = DELTA_SCENARIOS[deltaScenarioId];
+  if (!scenario) { return; }
+
+  document.querySelectorAll('#deltaScenarioToggle .delta-scenario-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-scenario') === deltaScenarioId);
+  });
+
+  document.getElementById('deltaScenarioSummary').innerHTML = '<div class=\"delta-scenario-heading\">' + esc(scenario.label) + '</div><div class=\"delta-scenario-copy\">' + esc(scenario.summary) + '</div>';
+  document.getElementById('deltaCurrent').innerHTML = '<div class=\"delta-current-left\"><span class=\"delta-current-label\">Current R_eff</span><span class=\"delta-current-value\">' + esc(scenario.current_reff) + '</span></div><div class=\"delta-arrow\">&rarr;</div><div class=\"delta-target-left\"><span class=\"delta-target-label\">Approve Threshold</span><span class=\"delta-target-value\">' + esc(scenario.target_reff) + '</span></div><div style=\"display:flex;flex-direction:column;gap:2px;\"><span class=\"delta-current-label\">Bottleneck</span><span style=\"font-size:13px;font-weight:600;font-family:\'JetBrains Mono\',monospace;color:var(--amber);\">' + esc(scenario.bottleneck) + '</span></div>';
+  document.getElementById('deltaSelectedLabel').innerHTML = 'Selected Path <span class=\"delta-count-badge\">' + esc(scenario.selected_count) + '</span>';
+  document.getElementById('deltaPrimaryItems').innerHTML = renderDeltaItems(scenario.selected_items, false);
+  document.getElementById('deltaProjection').innerHTML = '<div class=\"delta-projection-label\">Projected After Delta</div><div class=\"delta-projection-outcome\">R_eff = ' + esc(scenario.projection_reff) + ' &rarr; <span style=\"color:var(--green);font-weight:700;\">APPROVE</span></div><div style=\"font-size:12px;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace;\">' + esc(scenario.projection_meta) + '</div>';
+  document.getElementById('deltaAlternativeLabel').innerHTML = esc(scenario.alternative_label) + ' <span class=\"delta-count-badge alt-badge\">' + esc(scenario.alternative_count) + '</span>';
+  document.getElementById('deltaAlternativeItems').innerHTML = renderDeltaItems(scenario.alternative_items, true);
+  resetDeltaState();
+}
+
+function setDeltaScenario(id) {
+  if (!DELTA_SCENARIOS[id]) {
+    return;
+  }
+  deltaScenarioId = id;
+  renderDeltaScenario();
+}
 
 function startDelta() {
   if (deltaStarted) return;
@@ -749,7 +940,7 @@ function startDelta() {
 function checkApiHealth() {
   var statusEl = document.getElementById('apiStatus');
   if (!API_BASE_URL) {
-    statusEl.innerHTML = '<span class="api-offline">API not configured</span>';
+    statusEl.innerHTML = '<span class=\"api-offline\">Deterministic-only demo</span>';
     return;
   }
   statusEl.innerHTML = '<span class="api-checking">Checking API...</span>';
@@ -757,17 +948,18 @@ function checkApiHealth() {
     return res.json();
   }).then(function(data) {
     if (data.status === 'ok') {
-      statusEl.innerHTML = '<span class="api-online">API online · v' + esc(data.version || '?') + '</span>';
+      statusEl.innerHTML = '<span class=\"api-online\">Budget-limited live assist available</span>';
     } else {
-      statusEl.innerHTML = '<span class="api-offline">API error</span>';
+      statusEl.innerHTML = '<span class=\"api-offline\">Live assist unavailable · deterministic fallback active</span>';
     }
   }).catch(function() {
-    statusEl.innerHTML = '<span class="api-offline">API offline</span>';
+    statusEl.innerHTML = '<span class=\"api-offline\">Live assist offline · deterministic fallback active</span>';
   });
 }
 
 /* ---- Initialize ---- */
 document.addEventListener('DOMContentLoaded', function() {
   switchTab('hero');
+  renderDeltaScenario();
   checkApiHealth();
 });

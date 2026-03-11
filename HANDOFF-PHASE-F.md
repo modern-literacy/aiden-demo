@@ -9,12 +9,119 @@
 ## Executive Summary
 
 AIDEN is a multi-repo AI governance workbench. The engine, agent runtime, safety policies, and Vercel serverless functions are all **built, tested, and pushed to GitHub**. What remains is:
+1. **Rotate and scrub secrets before the visibility flip**
+2. **Review old GitHub Actions workflow logs and artifacts before anything becomes public**
+3. **Update the demo UI** (aiden-demo repo) with bounded public-safe defaults
+4. **Deploy aiden-engine to production via Git push** (GitHub-connected Vercel project)
+5. **Deploy aiden-demo to production via Git push** (GitHub-connected Vercel project)
 
-1. **Update the demo UI** (aiden-demo repo) to call the real agent endpoints
-2. **Deploy aiden-engine to Vercel** (connect repo, set env var)
-3. **Deploy aiden-demo** to static hosting (Vercel or equivalent)
+This document has everything you need for the public launch pass.
 
-This document has everything you need.
+---
+
+## Public Launch Hygiene
+
+The repo topology is already the right public story: 1 hub + 7 delivery repos, engine-owned contracts, pinned policy refs, and repo-level governance. The remaining work is launch hygiene, narrative clarity, and live-demo safety.
+
+### GitHub governance story (public narrative)
+
+Use this framing in org docs, README copy, and interviews:
+
+> We’ve configured enterprise-grade GitHub governance and code-security controls across the org. Merge behavior is standardized, secret leakage is actively prevented, and dependency hygiene is automated. The repo split then mirrors real ownership boundaries, so governance and architecture line up instead of fighting each other.
+
+Keep the explanation grounded in four concrete buckets:
+
+1. **Governance and change control**
+   - Mandatory PR flow
+   - Standardized merge path
+2. **Secret protection**
+   - Secret scanning
+   - Push protection
+3. **Supply-chain hygiene**
+   - Dependency graph
+   - Dependabot alerts
+   - Dependabot security updates
+4. **Merge hygiene and history quality**
+   - Squash-oriented merge behavior
+   - Auto-delete head branches
+
+Important wording nuance:
+
+- Say **enterprise-grade GitHub controls** or **enterprise-style governance and security on GitHub**
+- Do **not** say “GitHub Enterprise-only features” unless the plan tier is confirmed
+
+Current verification note:
+
+- Repo-level controls are confirmed via GitHub API across all eight repos.
+- `CODEOWNERS` is **not** currently healthy: every repo has a validation error because the org currently has no teams, so the referenced team owners are not resolvable.
+- Org-level rulesets are **not configured**: `/orgs/modern-literacy/rulesets` currently returns no rulesets.
+- Org-level Actions policy **is configured**: Actions are enabled for all repos, limited to GitHub-owned plus verified-creator actions, default workflow token permissions are read-only, and workflows cannot approve pull-request reviews. SHA pinning is not currently required.
+- Org-level custom properties **exist but are only partially applied**: the org schema is present, but only the `aiden` hub repo currently has values assigned.
+- An org-level code security configuration exists, but it is **draft only in practice**: the “GitHub recommended” configuration is `unenforced` and attached to zero repositories.
+
+### Before the visibility flip
+
+1. **Rotate and scrub secrets**
+   - Rotate any credential that may have touched a repo, workflow log, screenshot, or local script.
+   - Review workflow logs and artifacts from GitHub Actions before opening the org. Public repositories expose historical workflow logs.
+   - Keep runtime credentials only in Vercel environment variables and redeploy after changing them.
+2. **Strip accidental private noise**
+   - Remove absolute local paths such as `/Users/stas-studio/...` from docs, screenshots, templates, and log output.
+3. **Add central trust files**
+   - Create a `.github` repository with shared `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SUPPORT.md`, and issue / PR templates.
+   - Enable private vulnerability reporting so security reports do not end up in public Issues.
+4. **Curate the org front door**
+   - Publish an organization profile README and pin the repos in tour order: `aiden`, `aiden-engine`, `aiden-demo`, one policy repo, `aiden-tools`, `aiden-api`.
+   - Label `aiden-api` as intentionally scaffolded and `aiden-policies-controls` as transitional where appropriate.
+5. **Do the browser smoke test for real**
+   - Run deterministic, shadow, and live-assist end to end in production.
+   - Verify fallback behavior and error banners.
+   - Record a short proof-of-life GIF for the hub README.
+
+### Highest-value next GitHub controls
+
+After the public launch baseline is stable, the next layer should be:
+
+1. **Org-level required workflows**
+   - Centralize baseline CI and security checks.
+   - Require them to pass before merge.
+2. **Expand the existing custom-property schema**
+   - Fill in metadata consistently across repos instead of leaving seven repositories unclassified.
+   - Use those properties to target rulesets by repo class instead of applying the same policy everywhere.
+3. **Dependency review as a required PR gate**
+   - Especially for `aiden-engine`, `aiden-api`, and `aiden-tools`.
+4. **Code scanning / CodeQL**
+   - Turn on at least for `aiden-engine`, `aiden-api`, and `aiden-tools`.
+   - Treat security findings as delivery blockers at agreed severities.
+5. **Protected deployment environments**
+   - Require human approval for production deploy jobs.
+   - Keep environment secrets locked until approval.
+6. **Tighten GitHub Actions hardening**
+   - Keep the current org policy and add SHA pinning plus narrower reusable-workflow allowlists where needed.
+7. **Private vulnerability reporting + `SECURITY.md`**
+   - Keep security reports out of public issues.
+8. **A shared `.github` repository**
+   - Default `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, issue templates, and PR templates.
+9. **Merge queue for busier repos**
+   - Useful once `aiden-engine` starts carrying multiple concurrent PRs.
+10. **Tag rulesets for releases**
+    - Protect `v*` tags and release provenance.
+11. **Teams and granular repository roles**
+    - Prefer explicit team ownership and scoped roles over blanket admin.
+12. **Org profile and pinned repos**
+    - Force the tour order instead of relying on discovery by accident.
+
+Priority order for the next wave: **required workflows**, **custom properties**, then **CodeQL plus dependency review**.
+
+### Launch order
+
+1. Secret rotation and log scrub
+2. Browser smoke test + GIF
+3. Demo labeling and responsible-AI contract
+4. Community / security files
+5. Org profile and pinned repos
+6. Visibility flip
+
 
 ---
 
@@ -92,14 +199,17 @@ All pushed and tagged. Policy repos contain YAML rules for:
 
 ### Task 1: Update aiden-demo UI
 
-The current demo is a **static deterministic-only** showcase (index.html + app.js + style.css, ~97KB total). It needs to become a **live agent demo** that calls the Vercel-hosted endpoints.
+The current demo is a **static deterministic-only** showcase (index.html + app.js + style.css, ~97KB total). It needs to become a **bounded live agent demo** that calls the Vercel-hosted endpoints without becoming easy to misread.
 
 #### Required UI Changes
 
 **A. Mode Toggle (top of each agent view)**
 - Three-way toggle: `Deterministic` | `Shadow` | `Live Assist`
 - Default to `Deterministic` (no API key needed for this mode — deterministic runs server-side too, but the static version can continue to work client-side as fallback)
+- Treat `Deterministic` and `Shadow` as the public-safe defaults
+- Treat `Live Assist` as budget-limited live assist
 - When `Live Assist` or `Shadow` is selected, the UI calls the Vercel API
+- If live assist is unavailable or quota-limited, fall back cleanly to deterministic mode
 
 **B. Two-Agent Sequential Flow**
 The demo should show a clear two-step pipeline:
@@ -116,6 +226,10 @@ When mode = `shadow`:
 
 **D. Safety Panel**
 Show at the bottom or as a collapsible side panel:
+- Provider / model disclosure
+- Human review required
+- No autonomous writes
+- No open-web browsing
 - Model used (e.g., `minimax/minimax-m2.5`)
 - Tools allowed (list from agent profile)
 - Redaction applied (yes/no)
@@ -136,6 +250,15 @@ Expandable panel showing the agent's step-by-step trace:
 
 **F. Keep Existing Deterministic Demo Working**
 The current scripted flow (Author Copilot chat → Review Engine → Delta Engine) should still work when mode = `deterministic`. This is the fallback when no API is available.
+
+**G. Make the demo impossible to misread**
+- Add a banner near the scenario explaining that this is an intentionally incomplete sample proposal
+- Surface synthetic precedent data high on the page
+- Use public-safe wording such as `illustrative demo telemetry only`
+
+**H. Do not lead with waivers**
+- Keep the exception-intelligence scenario
+- Add a remediation-first default scenario in the Delta tab so the first impression is disciplined control closure rather than waiver-seeking
 
 #### API Contract (what the demo calls)
 
@@ -190,7 +313,7 @@ Same request shape. Response `result` follows the ReviewerOutput schema:
 
 **GET /api/health**
 ```json
-{ "status": "ok", "agents": ["architect", "reviewer"], "version": "1.0.0" }
+{ "status": "ok" }
 ```
 
 #### Sample Proposal (embed in app.js)
@@ -281,13 +404,13 @@ Delta Engine      — keep existing deterministic behavior
 Architecture      — keep existing architecture tab
 ```
 
-### Task 2: Deploy aiden-engine to Vercel
+### Task 2: Deploy aiden-engine to production via Git push
 
 **Prerequisites:**
 - Vercel account linked to the `modern-literacy` GitHub org
 - OpenRouter API key (user creates at https://openrouter.ai/keys)
 
-**Steps:**
+**One-time setup:**
 
 1. Go to https://vercel.com/new
 2. Import `modern-literacy/aiden-engine`
@@ -297,7 +420,17 @@ Architecture      — keep existing architecture tab
 6. Add environment variable:
    - Key: `OPENROUTER_API_KEY`
    - Value: (the API key)
-7. Deploy
+7. Confirm that the production environment is wired to the repo’s production branch
+
+**Normal production deploy flow:**
+
+1. Push tested changes to the production branch on GitHub
+2. Let Vercel build and deploy from the Git push
+3. Do **not** deploy locally from a laptop/CLI for production
+4. After deployment, keep strict public budgets:
+   - Keep `deterministic` and `shadow` as the default public experience
+   - Keep `live-assist` rate-limited and budget-limited
+   - Fall back to deterministic on quota exhaustion or provider failure
 
 The `vercel.json` is already configured with:
 - CORS headers for all `/api/*` routes
@@ -305,7 +438,7 @@ The `vercel.json` is already configured with:
 - Max duration: 60 seconds
 - Rewrites for clean API paths
 
-**After deploy, test:**
+**After the production push deploy, test:**
 ```bash
 # Health check
 curl https://<your-deployment>.vercel.app/api/health
@@ -321,15 +454,15 @@ curl -X POST https://<your-deployment>.vercel.app/api/architect \
   -d '{"proposal": { ... full proposal ... }, "mode": "live-assist"}'
 ```
 
-### Task 3: Deploy aiden-demo
+### Task 3: Deploy aiden-demo to production via Git push
 
 After updating the demo code:
 
-1. Push changes to `modern-literacy/aiden-demo` (main branch)
-2. Either:
-   - Deploy to Vercel as a static site (import repo, no build command needed)
-   - Or deploy with any static host
-3. Update the `API_BASE_URL` constant in app.js to point at the aiden-engine Vercel deployment
+1. If needed, import `modern-literacy/aiden-demo` into Vercel once as a static site
+2. Point `API_BASE_URL` in `app.js` at the production `aiden-engine` deployment
+3. Push tested changes to `modern-literacy/aiden-demo` on the production branch
+4. Let Vercel deploy from the Git push
+5. Do **not** deploy production locally from a laptop/CLI
 
 ### Task 4: Update aiden-demo README
 
@@ -490,7 +623,7 @@ The safety panel should display data from the API response:
 
 ### No changes needed in other repos
 
-aiden-engine is complete. All policy repos are complete. Just deploy.
+aiden-engine is complete. All policy repos are complete. Push tested changes to the production branches and let Git-connected hosting deploy them.
 
 ---
 
@@ -518,7 +651,9 @@ aiden-engine is complete. All policy repos are complete. Just deploy.
 ## Rate Limiting
 
 The API has built-in rate limiting:
-- 20 requests per minute per IP
+- 20 requests per minute per IP for `deterministic`
+- 10 requests per minute per IP for `shadow`
+- 5 requests per minute per IP for `live-assist`
 - Best-effort (in-memory, resets on cold start)
 - Returns 429 with message when exceeded
 - Request body max: 50KB

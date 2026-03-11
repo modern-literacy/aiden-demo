@@ -79,7 +79,23 @@
         </div>
         <div class="seeded-banner">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Demo supports three modes: <strong>Deterministic</strong> (scripted, no API), <strong>Shadow</strong> (side-by-side comparison), and <strong>Live Assist</strong> (real agent calls). Select mode in each agent tab.</span>
+          <span>Public demo defaults to <strong>Deterministic</strong> and <strong>Shadow</strong>. <strong>Live Assist</strong> is budget-limited live assist with clean <strong>deterministic fallback</strong> if the API is unavailable or quota-limited.</span>
+        </div>
+        <div class="public-contract">
+          <div class="public-contract-header">
+            <div class="public-contract-title">Public Demo Contract</div>
+            <div class="public-contract-badge">bounded intelligence with evidence</div>
+          </div>
+          <div class="public-contract-grid">
+            <div class="contract-item"><span class="contract-label">Provider / model</span><strong class="contract-value">OpenRouter · MiniMax M2.5</strong></div>
+            <div class="contract-item"><span class="contract-label">Data</span><strong class="contract-value">Sanitized sample data</strong></div>
+            <div class="contract-item"><span class="contract-label">Writes</span><strong class="contract-value">No autonomous writes</strong></div>
+            <div class="contract-item"><span class="contract-label">Web access</span><strong class="contract-value">No open-web browsing</strong></div>
+            <div class="contract-item"><span class="contract-label">Review</span><strong class="contract-value">Human review required</strong></div>
+            <div class="contract-item"><span class="contract-label">Trace</span><strong class="contract-value">Trace redaction enabled</strong></div>
+            <div class="contract-item"><span class="contract-label">Tools</span><strong class="contract-value">Tool allowlist enforced</strong></div>
+            <div class="contract-item"><span class="contract-label">Fallback</span><strong class="contract-value">Deterministic fallback</strong></div>
+          </div>
         </div>
         <div class="hero-grid">
           <div class="hero-card">
@@ -115,7 +131,7 @@
           <div class="moat-label">The Moat</div>
           <div class="moat-text">
             <strong>Buy the shell, build the brain.</strong> ServiceNow, LeanIX, Backstage, Credo AI, IBM watsonx, Microsoft Foundry handle workflow, catalogs, and generic scorecards. AIDEN owns what they can't ship: <strong>enterprise-specific policy translation, exception intelligence, and proposal-to-approval delta reasoning</strong> &mdash; institution-specific decision memory that gets more valuable over time.
-            <br><span style="font-size:11px;color:var(--text-muted);font-style:italic;">Metric projections are assumption-based demo telemetry. Validate against production data within 90 days.</span>
+            <br><span style="font-size:11px;color:var(--text-muted);font-style:italic;">Metric projections are illustrative demo telemetry only.</span>
           </div>
         </div>
         <div class="demo-context">
@@ -123,11 +139,17 @@
             <div class="demo-context-title">Demo Scenario</div>
             <div class="demo-context-badge">internal-tool tier</div>
           </div>
+          <div class="demo-warning-banner">
+            This is an <strong>intentionally incomplete sample proposal</strong>. Findings such as <code>SEC-RBAC-002</code>, <code>SEC-VUL-002</code>, <code>OPS-RUN-001</code>, and governance degradations are deliberate flaws in the sample submission, not defects in AIDEN.
+          </div>
+          <div class="demo-context-note">
+            <strong>Synthetic precedent data</strong> is used throughout the public demo. Confidence scores, waiver history, and reviewer history are illustrative demo inputs rather than production case records.
+          </div>
           <div class="demo-meta">
             <div class="demo-meta-item"><span class="demo-meta-label">Proposal</span><span class="demo-meta-value">AI Code Review Assistant</span></div>
             <div class="demo-meta-item"><span class="demo-meta-label">Integration</span><span class="demo-meta-value">GitHub Enterprise + Azure OpenAI</span></div>
             <div class="demo-meta-item"><span class="demo-meta-label">Users</span><span class="demo-meta-value">~300 internal engineers</span></div>
-            <div class="demo-meta-item"><span class="demo-meta-label">Expected R_eff</span><span class="demo-meta-value">0.69 &rarr; CONDITIONAL</span></div>
+            <div class="demo-meta-item"><span class="demo-meta-label">Expected R_eff</span><span class="demo-meta-value">0.69 &rarr; CONDITIONAL on sample</span></div>
           </div>
           <div class="scope-fields">
             <div class="scope-fields-label">Scope Fields (proposal.yaml)</div>
@@ -294,22 +316,21 @@
         </div>
         <div class="delta-body">
           <div class="delta-algo-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>Overall R_eff = <strong>min(section R_effs)</strong>. The delta engine fixes the bottleneck section first, then selects the minimum set of changes to cross the approve threshold.</span></div>
-          <div class="delta-current">
-            <div class="delta-current-left"><span class="delta-current-label">Current R_eff</span><span class="delta-current-value">0.69</span></div>
-            <div class="delta-arrow">&rarr;</div>
-            <div class="delta-target-left"><span class="delta-target-label">Approve Threshold</span><span class="delta-target-value">&ge; 0.75</span></div>
-            <div style="display:flex;flex-direction:column;gap:2px;"><span class="delta-current-label">Bottleneck</span><span style="font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--amber);">Security (0.69)</span></div>
+          <div class="delta-scenario-bar">
+            <div class="delta-scenario-toggle" id="deltaScenarioToggle">
+              <button class="delta-scenario-btn active" data-scenario="remediation-first" onclick="setDeltaScenario('remediation-first')">Remediation-First</button>
+              <button class="delta-scenario-btn" data-scenario="exception-intelligence" onclick="setDeltaScenario('exception-intelligence')">Exception Intelligence</button>
+            </div>
+            <div class="delta-scenario-pill">Synthetic precedent data &middot; public-safe default</div>
           </div>
-          <div class="delta-section-label">Selected Path <span class="delta-count-badge">1 item</span></div>
-          <div class="delta-items">
-            <div class="delta-item"><div class="delta-item-header"><div><div class="delta-item-rule">SEC-VUL-002</div><div class="delta-item-title">Waive binary authorization for internal-tool tier</div></div></div><div class="delta-item-desc">Document why Trivy container scanning is sufficient for internal-tool tier. SEC-VUL-002 severity is downgraded to <code>high</code> via tiers.yaml severity_adjustments. Waiving removes it from evaluable, which eliminates one high-severity penalty (&minus;0.03) and increases R_raw by shifting the ratio. Net impact: <strong>+0.137</strong>.</div><div class="delta-item-meta"><span class="delta-meta-tag meta-action-waive">waive</span><span class="delta-meta-tag meta-effort-low">effort: low</span><span class="delta-meta-tag meta-impact">R_eff +0.137</span><span class="delta-meta-tag meta-precedent">5 prior waivers at internal-tool (confidence: 0.82)</span></div></div>
-          </div>
-          <div class="delta-projection" id="deltaProjection"><div class="delta-projection-label">Projected After Delta</div><div class="delta-projection-outcome">R_eff = 0.827 &rarr; <span style="color:var(--green);font-weight:700;">APPROVE</span></div><div style="font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">round(0.827 &times; 100) = 83 &middot; confidence: 0.82 &middot; 1 item &middot; effort: low</div></div>
-          <div class="delta-section-label alt-label">Alternative Paths <span class="delta-count-badge alt-badge">1 remaining item</span></div>
-          <div class="delta-items delta-alt-items">
-            <div class="delta-item delta-alt-item"><div class="delta-item-header"><div><div class="delta-item-rule">SEC-RBAC-002</div><div class="delta-item-title">Implement break-glass emergency access procedure</div></div></div><div class="delta-item-desc">Document emergency access procedure for the GitHub App and AKS namespace. Not required for APPROVE at current tier, but improves defense-in-depth.</div><div class="delta-item-meta"><span class="delta-meta-tag meta-action-remediate">remediate</span><span class="delta-meta-tag meta-effort-low">effort: low</span><span class="delta-meta-tag meta-impact">R_eff +0.03</span><span class="delta-meta-tag meta-precedent">3 prior waivers (confidence: 0.71)</span></div></div>
-          </div>
-          <div class="seeded-note">Precedent data is seeded synthetic &mdash; real confidence improves as the system accumulates actual review decisions.</div>
+          <div class="delta-scenario-summary" id="deltaScenarioSummary"></div>
+          <div class="delta-current" id="deltaCurrent"></div>
+          <div class="delta-section-label" id="deltaSelectedLabel"></div>
+          <div class="delta-items" id="deltaPrimaryItems"></div>
+          <div class="delta-projection" id="deltaProjection"></div>
+          <div class="delta-section-label alt-label" id="deltaAlternativeLabel"></div>
+          <div class="delta-items delta-alt-items" id="deltaAlternativeItems"></div>
+          <div class="seeded-note">Synthetic precedent data is seeded synthetic &mdash; exception confidence is illustrative demo telemetry only.</div>
         </div>
       </div>
     </section>
