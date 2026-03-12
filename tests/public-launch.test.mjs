@@ -68,6 +68,13 @@ test('public repo does not ship the archival handoff note', () => {
   assert.equal(handoffExists, false);
 });
 
+test('demo points at the active Deno Deploy host', () => {
+  assert.match(appJs, /https:\/\/aiden-engine\.wpldev\.deno\.net/);
+  assert.match(readme, /https:\/\/aiden-engine\.wpldev\.deno\.net/);
+  assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(appJs));
+  assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(readme));
+});
+
 test('public mode surface exposes only deterministic and live assist', () => {
   const surfaces = [indexHtml, readme, appJs].join('\n\n');
   assert.match(surfaces, /deterministic/i);

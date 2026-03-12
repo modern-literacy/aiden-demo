@@ -4,9 +4,9 @@
    ======================================== */
 
 /* ---- Configuration ---- */
-// Set this to the deployment URL for aiden-engine.
+// Set this to the active deployment URL for aiden-engine.
 // Leave empty string to force deterministic-only mode (no API calls).
-var API_BASE_URL = 'https://aiden-engine.deno.dev';
+var API_BASE_URL = 'https://aiden-engine.wpldev.deno.net';
 
 /* ---- Sample Proposal (embedded from handoff) ---- */
 var SAMPLE_PROPOSAL = {
