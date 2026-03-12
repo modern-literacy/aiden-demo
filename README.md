@@ -1,20 +1,28 @@
 # aiden-demo
 
-Stakeholder-facing public demo for AIDEN.
+Public demo for **AIDEN**, an internal engineering pre‑review gate.
 
 **Live demo:** https://aiden-demo.vercel.app
 
 ## What this demo is
-The public demo presents AIDEN as a **governed decision system with bounded agentic assistance**.
+One use case only: an internal **AI code review assistant** for engineering workflow / CI‑CD.
 
-- **Architect Assist** — proposal shaping, gap detection, clarification prompts
-- **Reviewer Assist** — policy interpretation support, evidence-linked explanations, remediation drafting
-- **Hidden runtime role: Safety Governor / Operational Gate** — tool allowlist enforcement, redaction, budgets, fallback, escalation, unsafe-output blocking
-- **Deterministic gate** — authoritative baseline for policy evaluation, scoring, and gate outcomes
+AIDEN helps internal engineering teams turn rough AI proposals into review‑ready packets by finding missing evidence early, generating the few architecture views reviewers need, and issuing a deterministic pre‑review recommendation before a human decision.
 
-## Public Demo Contract
-The public demo makes these promises:
+## Public contract (3 promises)
+1. It shows what is missing before human review.
+2. It gives reviewers only the evidence that matters.
+3. It never replaces the human gate.
 
+## How the demo is presented
+One product with:
+- **Authoring help** (Architect Assist)
+- **Reviewer prep** (Reviewer Assist)
+- **Deterministic baseline** (authoritative recommendation)
+
+The Safety Governor / Operational Gate is described as an internal control layer (budgets, redaction, tool allowlist, fallback, escalation), not a separate product identity.
+
+## Public demo safety contract
 - Sanitized sample data only
 - No autonomous writes
 - No open-web browsing
@@ -22,10 +30,7 @@ The public demo makes these promises:
 - Deterministic fallback available
 - Tool allowlist enforced
 - Trace redaction enforced
-- Step budget enforced
-- Tool-call budget enforced
-- Time budget enforced
-- Cost/token budget enforced
+- Step / tool-call / time / cost-token budgets are visible
 - Escalation condition is visible
 
 ### Budget envelope

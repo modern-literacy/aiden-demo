@@ -1,5 +1,5 @@
 /* ========================================
-   AIDEN — Architecture Intake & Decision Engine
+   AIDEN — Internal Pre‑Review Gate Demo
    Application Logic — Phase F (Live Agent Demo)
    ======================================== */
 
@@ -72,102 +72,36 @@ var SAMPLE_PROPOSAL = {
 
 var DELTA_SCENARIOS = {
   'remediation-first': {
-    label: 'Remediation-First',
-    summary: 'Public-safe default. The best path fixes missing controls before the reviewer considers any exception path.',
-    current_reff: '0.72',
+    label: 'Remediation-first',
+    summary: 'Deterministic remediation plan. This MVE intentionally shows the minimum control/evidence changes needed to become review-ready (no waiver/exception branch).',
+    current_reff: '0.69',
     target_reff: '\u2265 0.75',
-    bottleneck: 'Security (0.72)',
-    selected_count: '2 items',
+    bottleneck: 'Security (0.69)',
+    selected_count: '2 actions',
     selected_items: [
       {
         rule: 'SEC-RBAC-002',
         title: 'Implement break-glass emergency access procedure',
-        description: 'Document emergency access for the GitHub App and AKS namespace. This removes a high-severity fail and gives reviewers explicit recovery evidence.',
+        description: 'Document emergency access for the GitHub App and AKS namespace. Assign an owner and include the re-review trigger.',
         tags: [
           { className: 'meta-action-remediate', label: 'remediate' },
           { className: 'meta-effort-low', label: 'effort: low' },
-          { className: 'meta-impact', label: 'R_eff +0.03' },
-          { className: 'meta-precedent', label: 'control remediation preferred' }
+          { className: 'meta-impact', label: 'R_eff +0.03' }
         ]
       },
       {
         rule: 'SEC-VUL-002',
         title: 'Enable image signing and binary authorization',
-        description: 'Sign release images and enforce admission checks for deployed artifacts. This clears the remaining bottleneck without relying on a waiver.',
+        description: 'Sign release images and enforce admission checks for deployed artifacts. Attach control evidence and re-run the deterministic gate.',
         tags: [
           { className: 'meta-action-remediate', label: 'remediate' },
           { className: 'meta-effort-low', label: 'effort: medium' },
-          { className: 'meta-impact', label: 'R_eff +0.09' },
-          { className: 'meta-precedent', label: 'control hardening path' }
+          { className: 'meta-impact', label: 'R_eff +0.09' }
         ]
       }
     ],
     projection_reff: '0.81',
-    projection_meta: 'round(0.81 \u00d7 100) = 81 \u00b7 confidence: 0.79 \u00b7 2 items \u00b7 effort: medium',
-    alternative_label: 'Alternative Path',
-    alternative_count: '1 exception path',
-    alternative_items: [
-      {
-        rule: 'SEC-VUL-002',
-        title: 'Use a tier-scoped waiver for binary authorization',
-        description: 'Available only because the sample is internal-tool tier with compensating controls and synthetic precedent history. Useful for demonstrating exception intelligence, but not the public default.',
-        tags: [
-          { className: 'meta-action-waive', label: 'waive' },
-          { className: 'meta-effort-low', label: 'effort: low' },
-          { className: 'meta-impact', label: 'R_eff +0.06' },
-          { className: 'meta-precedent', label: 'illustrative exception path' }
-        ]
-      }
-    ]
-  },
-  'exception-intelligence': {
-    label: 'Exception Intelligence',
-    summary: 'Illustrative exception intelligence view. This keeps the waiver-heavy scenario visible so evaluators can see how AIDEN reasons about scoped exceptions.',
-    current_reff: '0.69',
-    target_reff: '\u2265 0.75',
-    bottleneck: 'Security (0.69)',
-    selected_count: '1 item',
-    selected_items: [
-      {
-        rule: 'SEC-VUL-002',
-        title: 'Waive binary authorization for internal-tool tier',
-        description: 'Document why Trivy scanning is sufficient for the current tier. This exception path is retained to show exception intelligence, not because waivers are the preferred first impression.',
-        tags: [
-          { className: 'meta-action-waive', label: 'waive' },
-          { className: 'meta-effort-low', label: 'effort: low' },
-          { className: 'meta-impact', label: 'R_eff +0.137' },
-          { className: 'meta-precedent', label: '5 synthetic precedents (confidence: 0.82)' }
-        ]
-      }
-    ],
-    projection_reff: '0.827',
-    projection_meta: 'round(0.827 \u00d7 100) = 83 \u00b7 confidence: 0.82 \u00b7 1 item \u00b7 effort: low',
-    alternative_label: 'Alternative Paths',
-    alternative_count: '2 remediation items',
-    alternative_items: [
-      {
-        rule: 'SEC-RBAC-002',
-        title: 'Implement break-glass emergency access procedure',
-        description: 'Document emergency access procedure for the GitHub App and AKS namespace. This improves defense-in-depth and remains the cleaner long-term control posture.',
-        tags: [
-          { className: 'meta-action-remediate', label: 'remediate' },
-          { className: 'meta-effort-low', label: 'effort: low' },
-          { className: 'meta-impact', label: 'R_eff +0.03' },
-          { className: 'meta-precedent', label: 'control remediation path' }
-        ]
-      },
-      {
-        rule: 'SEC-VUL-002',
-        title: 'Enable image signing and binary authorization',
-        description: 'Implement the control instead of waiving it when the team can absorb a slightly higher delivery cost.',
-        tags: [
-          { className: 'meta-action-remediate', label: 'remediate' },
-          { className: 'meta-effort-low', label: 'effort: medium' },
-          { className: 'meta-impact', label: 'R_eff +0.09' },
-          { className: 'meta-precedent', label: 'preferred control closure' }
-        ]
-      }
-    ]
+    projection_meta: 'round(0.81 \u00d7 100) = 81 \u00b7 2 actions \u00b7 effort: medium'
   }
 };
 
@@ -216,7 +150,6 @@ var architectMode = 'deterministic';
 var reviewerMode = 'deterministic';
 var lastArchitectResponse = null;
 var lastReviewerResponse = null;
-var deltaScenarioId = 'remediation-first';
 
 /* ---- Tab Switching ---- */
 function switchTab(tabId) {
@@ -1089,29 +1022,15 @@ function resetDeltaState() {
 }
 
 function renderDeltaScenario() {
-  var scenario = DELTA_SCENARIOS[deltaScenarioId];
+  var scenario = DELTA_SCENARIOS['remediation-first'];
   if (!scenario) { return; }
-
-  document.querySelectorAll('#deltaScenarioToggle .delta-scenario-btn').forEach(function(btn) {
-    btn.classList.toggle('active', btn.getAttribute('data-scenario') === deltaScenarioId);
-  });
 
   document.getElementById('deltaScenarioSummary').innerHTML = '<div class=\"delta-scenario-heading\">' + esc(scenario.label) + '</div><div class=\"delta-scenario-copy\">' + esc(scenario.summary) + '</div>';
   document.getElementById('deltaCurrent').innerHTML = '<div class=\"delta-current-left\"><span class=\"delta-current-label\">Current R_eff</span><span class=\"delta-current-value\">' + esc(scenario.current_reff) + '</span></div><div class=\"delta-arrow\">&rarr;</div><div class=\"delta-target-left\"><span class=\"delta-target-label\">Approve Threshold</span><span class=\"delta-target-value\">' + esc(scenario.target_reff) + '</span></div><div style=\"display:flex;flex-direction:column;gap:2px;\"><span class=\"delta-current-label\">Bottleneck</span><span style=\"font-size:13px;font-weight:600;font-family:\'JetBrains Mono\',monospace;color:var(--amber);\">' + esc(scenario.bottleneck) + '</span></div>';
-  document.getElementById('deltaSelectedLabel').innerHTML = 'Selected Path <span class=\"delta-count-badge\">' + esc(scenario.selected_count) + '</span>';
+  document.getElementById('deltaSelectedLabel').innerHTML = 'Actions <span class=\"delta-count-badge\">' + esc(scenario.selected_count) + '</span>';
   document.getElementById('deltaPrimaryItems').innerHTML = renderDeltaItems(scenario.selected_items, false);
-  document.getElementById('deltaProjection').innerHTML = '<div class=\"delta-projection-label\">Projected After Delta</div><div class=\"delta-projection-outcome\">R_eff = ' + esc(scenario.projection_reff) + ' &rarr; <span style=\"color:var(--green);font-weight:700;\">APPROVE</span></div><div style=\"font-size:12px;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace;\">' + esc(scenario.projection_meta) + '</div>';
-  document.getElementById('deltaAlternativeLabel').innerHTML = esc(scenario.alternative_label) + ' <span class=\"delta-count-badge alt-badge\">' + esc(scenario.alternative_count) + '</span>';
-  document.getElementById('deltaAlternativeItems').innerHTML = renderDeltaItems(scenario.alternative_items, true);
+  document.getElementById('deltaProjection').innerHTML = '<div class=\"delta-projection-label\">Projected After Actions</div><div class=\"delta-projection-outcome\">R_eff = ' + esc(scenario.projection_reff) + ' &rarr; <span style=\"color:var(--green);font-weight:700;\">REVIEW‑READY</span></div><div style=\"font-size:12px;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace;\">' + esc(scenario.projection_meta) + '</div>';
   resetDeltaState();
-}
-
-function setDeltaScenario(id) {
-  if (!DELTA_SCENARIOS[id]) {
-    return;
-  }
-  deltaScenarioId = id;
-  renderDeltaScenario();
 }
 
 function startDelta() {
@@ -1140,12 +1059,7 @@ function startDelta() {
   }, delay + 800);
 
   setTimeout(function() {
-    var altLabel = document.querySelector('.alt-label');
-    if (altLabel) altLabel.classList.add('revealed');
-    document.querySelectorAll('.delta-alt-items .delta-item').forEach(function(item, idx) {
-      setTimeout(function() { item.classList.add('revealed'); }, idx * 600);
-    });
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Delta Computed</span>';
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Actions generated</span>';
     btn.style.opacity = '1';
   }, delay + 1400);
 }

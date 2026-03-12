@@ -15,14 +15,16 @@ This file remains in the repo as a historical handoff marker for the public-laun
 - Engine public contract: `../aiden-engine/README.md`
 - Demo behavior and setup: `README.md`
 
-## Current public story
-- AIDEN is presented as a **governed decision system with bounded agentic assistance**.
-- The public topology is **1 hub + 7 delivery repos** for AIDEN, inside the broader `modern-literacy` public org profile.
+## Current public story (as of 2026-03-12)
+This repo is a stakeholder-facing demo for **one use case only**: an internal AI code review assistant for engineering workflow / CI-CD.
+
+AIDEN is presented as an **internal engineering pre-review gate**:
+- It helps teams turn rough AI proposals into **review-ready** packets.
 - The execution core remains authoritative in **deterministic** mode.
-- **Shadow** mode compares bounded assistive output without changing authority.
-- **Live Assist** is visible, bounded, and fallback-capable.
-- The visible assistive roles are **Architect Assist** and **Reviewer Assist**.
-- The hidden governance runtime role is **Safety Governor / Operational Gate**.
+- Assistive modes (Architect Assist / Reviewer Assist) can draft and explain, but **do not replace the human gate**.
+- Runtime controls (Safety Governor / Operational Gate) are described as a control layer, not a separate product identity.
+
+Note: historical phrasing about repo topology and “governed decision systems” is intentionally not the front-door story anymore.
 
 ## Current demo contract highlights
 - Sanitized sample data only

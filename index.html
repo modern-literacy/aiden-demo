@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIDEN — Architecture Intake &amp; Decision Engine</title>
-<meta name="description" content="Enterprise AI governance workbench. Reduce first-pass review failure rate and reviewer time for internal AI proposals.">
+<title>AIDEN — Internal Pre‑Review Gate Demo</title>
+<meta name="description" content="Internal engineering pre-review gate: turn rough AI proposals into review-ready packets with deterministic recommendations and explicit human review.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,8 +23,8 @@
         </svg>
       </div>
       <div class="logo-text">
-        <span class="logo-name">AIDEN</span>
-        <span class="logo-sub">Decision Engine</span>
+<span class="logo-name">AIDEN</span>
+        <span class="logo-sub">Pre‑Review Gate</span>
       </div>
     </div>
     <nav class="sidebar-nav">
@@ -40,9 +40,9 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         <span>Reviewer Assist</span>
       </button>
-      <button class="nav-item" data-tab="delta" onclick="switchTab('delta')">
+<button class="nav-item" data-tab="delta" onclick="switchTab('delta')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
-        <span>Delta Engine</span>
+        <span>Remediation</span>
       </button>
       <button class="nav-item" data-tab="architecture" onclick="switchTab('architecture')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -50,9 +50,9 @@
       </button>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-badge">
+<div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>1 hub + 7 delivery repos</span>
+        <span>One use case: internal AI code review assistant</span>
       </div>
       <div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -67,9 +67,9 @@
     <!-- ================ HERO TAB ================ -->
     <section class="tab-content active" id="tab-hero">
       <div class="hero-section">
-        <div class="hero-eyebrow">Architecture Intake &amp; Decision Engine</div>
-        <h1 class="hero-title">Govern AI Proposals with Deterministic Decisions<br>and Bounded Assistive Review</h1>
-        <p class="hero-desc">AIDEN is a governed decision system for internal AI proposals. The deterministic engine stays authoritative while bounded assistive roles help proposal authors and reviewers work faster with policy-linked evidence, visible controls, and replayable traces.</p>
+<div class="hero-eyebrow">Internal engineering pre‑review gate</div>
+        <h1 class="hero-title">Turn rough AI proposals into review‑ready packets<br>before the human gate</h1>
+        <p class="hero-desc">AIDEN helps internal engineering teams find missing evidence early, generate the few architecture views reviewers need, and issue a deterministic pre‑review recommendation before a human decision.</p>
         <div class="hero-actions">
           <button class="btn-primary" onclick="switchTab('copilot')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -82,9 +82,9 @@
           <span>Public demo defaults to <strong>Deterministic</strong> and <strong>Shadow</strong>. <strong>Live Assist</strong> is budget-limited live assist with clean <strong>deterministic fallback</strong> if the API is unavailable or quota-limited.</span>
         </div>
         <div class="public-contract">
-          <div class="public-contract-header">
+<div class="public-contract-header">
             <div class="public-contract-title">Public Demo Contract</div>
-            <div class="public-contract-badge">bounded intelligence with evidence</div>
+            <div class="public-contract-badge">deterministic baseline + human gate</div>
           </div>
           <div class="public-contract-grid">
             <div class="contract-item"><span class="contract-label">Provider / model</span><strong class="contract-value">OpenRouter · MiniMax M2.5</strong></div>
@@ -103,34 +103,34 @@
             <div class="contract-item"><span class="contract-label">Policy Lock</span><strong class="contract-value">Pinned refs visible in runtime panels</strong></div>
           </div>
         </div>
-        <div class="hero-grid">
+<div class="hero-grid">
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(10,110,117,0.15);color:#0A6E75;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <h3>Architect Assist</h3>
-            <p>Proposal shaping, gap detection, and clarification prompts. Helps authors close missing evidence before the human reviewer ever opens the pack.</p>
+            <h3>Authoring help (Architect Assist)</h3>
+            <p>Proposal shaping, gap detection, and clarification prompts to close missing evidence before the human reviewer ever opens the pack.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(212,168,67,0.15);color:#D4A843;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
-            <h3>Reviewer Assist</h3>
-            <p>Policy interpretation support, evidence-linked explanations, and remediation drafting. Helps reviewers interpret bounded live runs without changing who owns the decision.</p>
+            <h3>Reviewer prep (Reviewer Assist)</h3>
+            <p>Evidence-linked explanation and remediation drafting that helps reviewers move faster without changing who owns the decision.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3>Deterministic Gate</h3>
-            <p>The authoritative baseline. Pinned policies, explicit guard outcomes, gate logic, and replayable evidence remain deterministic even when live assist is enabled.</p>
+            <h3>Deterministic baseline</h3>
+            <p>The authoritative recommendation and evidence surface. Same input yields the same deterministic output.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(34,197,94,0.1);color:#22c55e;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
             </div>
-            <h3>Hidden Runtime Role: Safety Governor / Operational Gate</h3>
-            <p>Enforces the tool allowlist, budgets, redaction, deterministic fallback, and human escalation. It is visible as a control layer, not marketed as a free-roaming agent.</p>
+            <h3>Runtime controls (internal)</h3>
+            <p>A control layer enforces the tool allowlist, budgets, redaction, deterministic fallback, and human escalation. It is visible as evidence, not marketed as a free‑roaming agent.</p>
           </div>
         </div>
         <div class="moat-banner">
@@ -316,27 +316,21 @@
     <!-- ================ DELTA ENGINE TAB ================ -->
     <section class="tab-content" id="tab-delta">
       <div class="delta-layout">
-        <div class="delta-header-bar">
-          <div class="panel-header-left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg><div><div class="panel-title">Proposal-to-Approval Delta Engine</div><div class="panel-subtitle">Bottleneck-Aware Selection &middot; Minimum Path to APPROVE</div></div></div>
-          <button class="btn-primary" id="startDeltaBtn" onclick="startDelta()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Compute Delta</span></button>
+<div class="delta-header-bar">
+          <div class="panel-header-left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg><div><div class="panel-title">Remediation plan</div><div class="panel-subtitle">Minimum set of changes to become review‑ready</div></div></div>
+          <button class="btn-primary" id="startDeltaBtn" onclick="startDelta()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Generate actions</span></button>
         </div>
         <div class="delta-body">
           <div class="delta-algo-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>Overall R_eff = <strong>min(section R_effs)</strong>. The delta engine fixes the bottleneck section first, then selects the minimum set of changes to cross the approve threshold.</span></div>
-          <div class="delta-scenario-bar">
-            <div class="delta-scenario-toggle" id="deltaScenarioToggle">
-              <button class="delta-scenario-btn active" data-scenario="remediation-first" onclick="setDeltaScenario('remediation-first')">Remediation-First</button>
-              <button class="delta-scenario-btn" data-scenario="exception-intelligence" onclick="setDeltaScenario('exception-intelligence')">Exception Intelligence</button>
-            </div>
-            <div class="delta-scenario-pill">Synthetic precedent data &middot; public-safe default</div>
+<div class="delta-scenario-bar">
+            <div class="delta-scenario-pill">Deterministic baseline &middot; remediation-first</div>
           </div>
           <div class="delta-scenario-summary" id="deltaScenarioSummary"></div>
           <div class="delta-current" id="deltaCurrent"></div>
           <div class="delta-section-label" id="deltaSelectedLabel"></div>
           <div class="delta-items" id="deltaPrimaryItems"></div>
           <div class="delta-projection" id="deltaProjection"></div>
-          <div class="delta-section-label alt-label" id="deltaAlternativeLabel"></div>
-          <div class="delta-items delta-alt-items" id="deltaAlternativeItems"></div>
-          <div class="seeded-note">Synthetic precedent data is seeded synthetic &mdash; exception confidence is illustrative demo telemetry only.</div>
+<div class="seeded-note">Actions are deterministic and remediation-first. Exception/waiver intelligence is intentionally not part of this public MVE.</div>
         </div>
       </div>
     </section>
@@ -360,7 +354,7 @@
         </div>
         <div class="arch-details">
           <div class="arch-detail-card"><h4>Deterministic decision core</h4><p>The deterministic path remains authoritative.</p><ul><li><strong>Policy evaluation</strong> &mdash; Pinned rules produce pass, fail, abstain, and degrade outcomes.</li><li><strong>Gate logic</strong> &mdash; Thresholds, fold behavior, and human review requirements stay explicit.</li><li><strong>Delta logic</strong> &mdash; Remediation paths are derived from bottlenecks, not hidden model intuition.</li><li><strong>Replay</strong> &mdash; Public-safe traces and evidence references make outcomes inspectable.</li></ul></div>
-          <div class="arch-detail-card"><h4>Bounded assistive overlay</h4><p>Live assist is constrained by visible runtime controls.</p><ul><li><strong>Architect Assist</strong> &mdash; Shapes proposals, detects gaps, asks clarifying questions.</li><li><strong>Reviewer Assist</strong> &mdash; Interprets policies, explains evidence, drafts remediation suggestions.</li><li><strong>Safety Governor</strong> &mdash; Enforces tool allowlists, budgets, redaction, fallback, and escalation.</li><li><strong>Authority</strong> &mdash; Assistive outputs remain advisory.</li></ul></div>
+          <div class="arch-detail-card"><h4>Bounded assistive overlay</h4><p>Live assist is constrained by visible runtime controls.</p><ul><li><strong>Architect Assist</strong> &mdash; Shapes proposals, detects gaps, asks clarifying questions.</li><li><strong>Reviewer Assist</strong> &mdash; Interprets policies, explains evidence, drafts remediation suggestions.</li><li><strong>Safety Governor / Operational Gate</strong> &mdash; Enforces tool allowlists, budgets, redaction, fallback, and escalation.</li><li><strong>Authority</strong> &mdash; Assistive outputs remain advisory.</li></ul></div>
           <div class="arch-detail-card"><h4>Guard &rarr; Gate &rarr; Review</h4><p>Evidence and decisions are separated on purpose.</p><ul><li><strong>Guard</strong> &mdash; What the evidence says.</li><li><strong>Gate</strong> &mdash; What the deterministic policy engine decides.</li><li><strong>Review</strong> &mdash; What the human reviewer confirms, escalates, or rejects.</li><li><strong>Fold behavior</strong> &mdash; Errors and unsafe live runs fall back to deterministic handling.</li></ul></div>
           <div class="arch-detail-card"><h4>Publication layer</h4><p>The demo, README, and docs are publication surfaces, not the scoring core.</p><ul><li><strong>FPF views</strong> &mdash; Functional, Procedural, Role-Enactor, and Module-Interface.</li><li><strong>Governance views</strong> &mdash; Risk, control, compliance, and operations remain separate.</li><li><strong>Public contract</strong> &mdash; Safety envelope and budgets are visible, not implied.</li><li><strong>Evidence-first story</strong> &mdash; Mode, policy refs, traces, and remediation are all inspectable.</li></ul></div>
         </div>

@@ -10,7 +10,7 @@ const handoff = fs.readFileSync(new URL('../HANDOFF-PHASE-F.md', import.meta.url
 test('overview makes the intentionally incomplete sample explicit', () => {
   assert.match(indexHtml, /intentionally incomplete sample proposal/i);
   assert.match(indexHtml, /synthetic precedent data/i);
-  assert.match(indexHtml, /illustrative demo telemetry only/i);
+  assert.match(indexHtml, /illustrative demo inputs/i);
 });
 
 test('public demo contract is visible to a cold visitor', () => {
@@ -41,10 +41,14 @@ test('public contract names the budget and escalation envelope', () => {
   assert.match(readme, /time budget/i);
 });
 
-test('delta engine keeps exception intelligence but defaults to remediation-first framing', () => {
+test('remediation view stays deterministic and remediation-first (no waiver/exception branch in MVE)', () => {
   assert.match(appJs, /remediation-first/i);
-  assert.match(appJs, /exception intelligence/i);
+  assert.match(indexHtml, /deterministic baseline/i);
   assert.match(indexHtml, /budget-limited live assist/i);
+
+  // Keep extra branches out of the public MVE.
+  assert.ok(!/exception intelligence/i.test(appJs));
+  assert.ok(!/deltaScenarioToggle/i.test(indexHtml));
 });
 
 test('live evidence surface publishes policy refs and explicit fallback or escalation labels', () => {
@@ -60,4 +64,28 @@ test('handoff captures public launch hygiene before the visibility flip', () => 
   assert.match(handoff, /workflow logs/i);
   assert.match(handoff, /\.github/i);
   assert.match(handoff, /SECURITY\.md/i);
+});
+
+test('copy regression: promises stay narrow and human review stays explicit', () => {
+  const surfaces = [indexHtml, readme].join('\n\n');
+
+  // Required contract language
+  assert.match(surfaces, /human review required/i);
+  assert.match(surfaces, /deterministic baseline/i);
+  assert.match(surfaces, /internal/i);
+
+  // Ban/flag promise creep
+  const banned = [
+    /autonomous approval/i,
+    /auto-?approve/i,
+    /full compliance automation/i,
+    /compliance auto-approval/i,
+    /enterprise onboarding platform/i,
+    /replaces reviewers/i,
+    /self-?healing governance/i,
+    /complete architecture automation/i,
+  ];
+  for (const rx of banned) {
+    assert.ok(!rx.test(surfaces), `banned claim present: ${rx}`);
+  }
 });
