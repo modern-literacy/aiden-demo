@@ -62,7 +62,7 @@ The demo visibly exposes:
 ## API configuration
 The `API_BASE_URL` variable in `app.js` controls the backend.
 
-- Current: `https://aiden-engine.wpldev.deno.net`
+- Current: `https://aiden-engine-v27n5gsehf86.wpldev.deno.net`
 - Set to empty string `''` to force deterministic-only mode
 
 The backend repo is [modern-literacy/aiden-engine](https://github.com/modern-literacy/aiden-engine).
