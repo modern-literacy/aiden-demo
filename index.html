@@ -56,7 +56,7 @@
       </div>
       <div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span>Policy lock v1.0.0</span>
+        <span>Policy pack v1.0.0</span>
       </div>
     </div>
   </aside>
@@ -79,7 +79,7 @@
         </div>
         <div class="seeded-banner">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Public demo defaults to <strong>Deterministic</strong> and <strong>Shadow</strong>. <strong>Live Assist</strong> is budget-limited live assist with clean <strong>deterministic fallback</strong> if the API is unavailable or quota-limited.</span>
+          <span>Public demo defaults to <strong>Deterministic</strong>. <strong>Live Assist</strong> is budget-limited live assist with clean <strong>deterministic fallback</strong> if the API is unavailable or quota-limited.</span>
         </div>
         <div class="public-contract">
 <div class="public-contract-header">
@@ -100,7 +100,7 @@
             <div class="contract-item"><span class="contract-label">Time Budget</span><strong class="contract-value">60s / 90s</strong></div>
             <div class="contract-item"><span class="contract-label">Cost/Token Budget</span><strong class="contract-value">4k/6k tokens · $0.10/$0.15</strong></div>
             <div class="contract-item"><span class="contract-label">Escalation Condition</span><strong class="contract-value">Safety flag, budget hit, low confidence, or policy conflict</strong></div>
-            <div class="contract-item"><span class="contract-label">Policy Lock</span><strong class="contract-value">Pinned refs visible in runtime panels</strong></div>
+            <div class="contract-item"><span class="contract-label">Policy Pack</span><strong class="contract-value">Engine-owned refs visible in runtime panels</strong></div>
           </div>
         </div>
 <div class="hero-grid">
@@ -129,8 +129,8 @@
             <div class="hero-card-icon" style="background:rgba(34,197,94,0.1);color:#22c55e;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
             </div>
-            <h3>Runtime controls (internal)</h3>
-            <p>A control layer enforces the tool allowlist, budgets, redaction, deterministic fallback, and human escalation. It is visible as evidence, not marketed as a free‑roaming agent.</p>
+            <h3>Runtime guardrails</h3>
+            <p>Tool allowlists, budgets, redaction, deterministic fallback, and human escalation stay visible as guardrails rather than as a separate product persona.</p>
           </div>
         </div>
         <div class="moat-banner">
@@ -182,7 +182,6 @@
         </div>
         <div class="mode-toggle" id="architectModeToggle">
           <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','architect')">Deterministic</button>
-          <button class="mode-btn" data-mode="shadow" onclick="setMode('shadow','architect')">Shadow</button>
           <button class="mode-btn" data-mode="live-assist" onclick="setMode('live-assist','architect')">Live Assist</button>
         </div>
       </div>
@@ -227,14 +226,6 @@
         </div>
       </div>
 
-      <!-- Shadow view -->
-      <div class="shadow-view hidden" id="architectShadowView">
-        <div class="shadow-layout">
-          <div class="shadow-panel shadow-left"><div class="shadow-panel-header">Deterministic Output</div><div class="shadow-panel-body" id="architectShadowDeterministic"></div></div>
-          <div class="shadow-panel shadow-right"><div class="shadow-panel-header">Live Agent Output <div class="loading-inline hidden" id="architectShadowLoading"><div class="spinner-sm"></div></div></div><div class="shadow-panel-body" id="architectShadowLive"></div></div>
-        </div>
-      </div>
-
       <!-- Safety & Trace panels -->
       <div class="safety-panel hidden expanded" id="architectSafetyPanel">
         <button class="safety-panel-toggle" onclick="togglePanel('architectSafetyPanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Safety &amp; Budget <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -251,11 +242,10 @@
       <div class="mode-toggle-bar">
         <div class="panel-header-left">
           <div class="agent-indicator reviewer-agent"></div>
-          <div><div class="panel-title">Reviewer Assist</div><div class="panel-subtitle">Evidence-linked interpretation &middot; Pinned policy refs</div></div>
+          <div><div class="panel-title">Reviewer Assist</div><div class="panel-subtitle">Evidence-linked interpretation &middot; Policy pack refs</div></div>
         </div>
         <div class="mode-toggle" id="reviewerModeToggle">
           <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','reviewer')">Deterministic</button>
-          <button class="mode-btn" data-mode="shadow" onclick="setMode('shadow','reviewer')">Shadow</button>
           <button class="mode-btn" data-mode="live-assist" onclick="setMode('live-assist','reviewer')">Live Assist</button>
         </div>
       </div>
@@ -291,14 +281,6 @@
         <div class="live-result-container">
           <div class="loading-overlay hidden" id="reviewerLoading"><div class="spinner"></div><span>Running Reviewer Assist&hellip; this may take 10&ndash;30s</span></div>
           <div id="reviewerLiveResult"></div>
-        </div>
-      </div>
-
-      <!-- Shadow view -->
-      <div class="shadow-view hidden" id="reviewerShadowView">
-        <div class="shadow-layout">
-          <div class="shadow-panel shadow-left"><div class="shadow-panel-header">Deterministic Output</div><div class="shadow-panel-body" id="reviewerShadowDeterministic"></div></div>
-          <div class="shadow-panel shadow-right"><div class="shadow-panel-header">Live Agent Output <div class="loading-inline hidden" id="reviewerShadowLoading"><div class="spinner-sm"></div></div></div><div class="shadow-panel-body" id="reviewerShadowLive"></div></div>
         </div>
       </div>
 
@@ -342,7 +324,7 @@
         <div class="arch-stack-banner">
           <div class="stack-item"><span class="stack-label">Decision core</span><span class="stack-value">Deterministic evaluator + gate</span></div>
           <div class="stack-item"><span class="stack-label">Assistive overlay</span><span class="stack-value">Architect Assist / Reviewer Assist</span></div>
-          <div class="stack-item"><span class="stack-label">Policy lock</span><span class="stack-value">Pinned git refs + sync</span></div>
+          <div class="stack-item"><span class="stack-label">Policy pack</span><span class="stack-value">Engine-owned package</span></div>
           <div class="stack-item"><span class="stack-label">Trace / replay</span><span class="stack-value">Redacted public-safe evidence</span></div>
           <div class="stack-item"><span class="stack-label">Contract</span><span class="stack-value">Schema-first + tool-allowlisted</span></div>
           <div class="stack-item"><span class="stack-label">Publication</span><span class="stack-value">README, docs, demo surfaces</span></div>
@@ -354,7 +336,7 @@
         </div>
         <div class="arch-details">
           <div class="arch-detail-card"><h4>Deterministic decision core</h4><p>The deterministic path remains authoritative.</p><ul><li><strong>Policy evaluation</strong> &mdash; Pinned rules produce pass, fail, abstain, and degrade outcomes.</li><li><strong>Gate logic</strong> &mdash; Thresholds, fold behavior, and human review requirements stay explicit.</li><li><strong>Delta logic</strong> &mdash; Remediation paths are derived from bottlenecks, not hidden model intuition.</li><li><strong>Replay</strong> &mdash; Public-safe traces and evidence references make outcomes inspectable.</li></ul></div>
-          <div class="arch-detail-card"><h4>Bounded assistive overlay</h4><p>Live assist is constrained by visible runtime controls.</p><ul><li><strong>Architect Assist</strong> &mdash; Shapes proposals, detects gaps, asks clarifying questions.</li><li><strong>Reviewer Assist</strong> &mdash; Interprets policies, explains evidence, drafts remediation suggestions.</li><li><strong>Safety Governor / Operational Gate</strong> &mdash; Enforces tool allowlists, budgets, redaction, fallback, and escalation.</li><li><strong>Authority</strong> &mdash; Assistive outputs remain advisory.</li></ul></div>
+          <div class="arch-detail-card"><h4>Bounded assistive overlay</h4><p>Live assist is constrained by visible runtime guardrails.</p><ul><li><strong>Architect Assist</strong> &mdash; Shapes proposals, detects gaps, asks clarifying questions.</li><li><strong>Reviewer Assist</strong> &mdash; Interprets policies, explains evidence, drafts remediation suggestions.</li><li><strong>Guardrails</strong> &mdash; Tool allowlists, budgets, redaction, fallback, and escalation remain visible.</li><li><strong>Authority</strong> &mdash; Assistive outputs remain advisory.</li></ul></div>
           <div class="arch-detail-card"><h4>Guard &rarr; Gate &rarr; Review</h4><p>Evidence and decisions are separated on purpose.</p><ul><li><strong>Guard</strong> &mdash; What the evidence says.</li><li><strong>Gate</strong> &mdash; What the deterministic policy engine decides.</li><li><strong>Review</strong> &mdash; What the human reviewer confirms, escalates, or rejects.</li><li><strong>Fold behavior</strong> &mdash; Errors and unsafe live runs fall back to deterministic handling.</li></ul></div>
           <div class="arch-detail-card"><h4>Publication layer</h4><p>The demo, README, and docs are publication surfaces, not the scoring core.</p><ul><li><strong>FPF views</strong> &mdash; Functional, Procedural, Role-Enactor, and Module-Interface.</li><li><strong>Governance views</strong> &mdash; Risk, control, compliance, and operations remain separate.</li><li><strong>Public contract</strong> &mdash; Safety envelope and budgets are visible, not implied.</li><li><strong>Evidence-first story</strong> &mdash; Mode, policy refs, traces, and remediation are all inspectable.</li></ul></div>
         </div>

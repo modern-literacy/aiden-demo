@@ -20,7 +20,7 @@ One product with:
 - **Reviewer prep** (Reviewer Assist)
 - **Deterministic baseline** (authoritative recommendation)
 
-The Safety Governor / Operational Gate is described as an internal control layer (budgets, redaction, tool allowlist, fallback, escalation), not a separate product identity.
+Runtime guardrails (budgets, redaction, tool allowlist, fallback, escalation) stay visible as evidence, not as a separate product identity.
 
 ## Public demo safety contract
 - Sanitized sample data only
@@ -42,14 +42,13 @@ The runtime escalates when safety checks fail, budgets are exhausted, confidence
 
 ## Modes
 - **Deterministic** — authoritative baseline and source of truth
-- **Shadow** — bounded assistive comparison beside the deterministic baseline
 - **Live Assist** — visible bounded assistive path with typed tools, redaction, fallback, and escalation
 
 ## Runtime evidence shown in the UI
 The demo visibly exposes:
 
 - mode selected
-- policy lock refs used
+- policy pack refs used
 - tools called
 - step count and tool-call count
 - trace id

@@ -105,25 +105,16 @@ var DELTA_SCENARIOS = {
   }
 };
 
-var PUBLIC_POLICY_LOCK = {
+var PUBLIC_POLICY_PACK = {
   version: '1.0.0',
-  locked_at: '2026-03-11T03:00:00Z',
-  policies: {
-    hipaa: {
-      repo: 'modern-literacy/aiden-policies-hipaa',
-      ref: 'v1.0.0',
-      sha: '430a79d59c8614e7d21185cdb2f3c8674e7a8482'
-    },
-    controls: {
-      repo: 'modern-literacy/aiden-policies-controls',
-      ref: 'v1.0.0',
-      sha: 'c63f5dc3c1d8dd6a6dea07c88f20bfd0729a1584'
-    },
-    arch: {
-      repo: 'modern-literacy/aiden-policies-arch',
-      ref: 'v1.0.0',
-      sha: 'edd4ad61ec801531c3c448f351761c7ed96d1fe3'
-    }
+  published_at: '2026-03-11T03:00:00Z',
+  source_repo: 'modern-literacy/aiden-engine',
+  source_path: 'policies',
+  domains: {
+    'data-privacy': ['hipaa/phi-handling.yaml'],
+    architecture: ['architecture/cloud-infrastructure.yaml'],
+    security: ['security/authentication.yaml', 'security/operations.yaml'],
+    governance: ['security/governance.yaml']
   }
 };
 
@@ -176,10 +167,8 @@ function setMode(mode, agent, options) {
 
   if (agent === 'architect') {
     if (mode === 'live-assist') { runArchitectLive(); }
-    else if (mode === 'shadow') { runArchitectShadow(); }
   } else {
     if (mode === 'live-assist') { runReviewerLive(); }
-    else if (mode === 'shadow') { runReviewerShadow(); }
   }
 }
 
@@ -205,13 +194,11 @@ function toggleView(agent, mode) {
   var prefix = agent === 'architect' ? 'architect' : 'reviewer';
   var det = document.getElementById(prefix + 'DeterministicView');
   var live = document.getElementById(prefix + 'LiveView');
-  var shadow = document.getElementById(prefix + 'ShadowView');
   var safety = document.getElementById(prefix + 'SafetyPanel');
   var trace = document.getElementById(prefix + 'TracePanel');
 
   det.classList.toggle('hidden', mode !== 'deterministic');
   live.classList.toggle('hidden', mode !== 'live-assist');
-  shadow.classList.toggle('hidden', mode !== 'shadow');
   safety.classList.remove('hidden');
   trace.classList.remove('hidden');
 }
@@ -225,7 +212,7 @@ function buildPendingAssistState(agent) {
   return {
     mode: agent === 'architect' ? architectMode : reviewerMode,
     result: null,
-    policy_lock: PUBLIC_POLICY_LOCK,
+    policy_pack: PUBLIC_POLICY_PACK,
     budget_summary: {
       steps_used: 0,
       steps_limit: budget.steps,
@@ -264,7 +251,7 @@ function buildDeterministicDemoState(agent) {
   return {
     mode: 'deterministic',
     result: null,
-    policy_lock: PUBLIC_POLICY_LOCK,
+    policy_pack: PUBLIC_POLICY_PACK,
     budget_summary: null,
     safety_status: 'ok',
     trace_id: evidence.traceId,
@@ -377,31 +364,6 @@ function runArchitectLive() {
   });
 }
 
-/* ---- Architect Assist — Shadow ---- */
-function runArchitectShadow() {
-  var detPanel = document.getElementById('architectShadowDeterministic');
-  var livePanel = document.getElementById('architectShadowLive');
-  var loadingEl = document.getElementById('architectShadowLoading');
-
-  detPanel.innerHTML = '<div class="shadow-placeholder">Deterministic result will appear when API responds (runs server-side too)</div>';
-  livePanel.innerHTML = '';
-  loadingEl.classList.remove('hidden');
-
-  callApi('architect', 'shadow').then(function(data) {
-    loadingEl.classList.add('hidden');
-    lastArchitectResponse = data;
-    if (data.deterministic_result) {
-      detPanel.innerHTML = renderDeterministicSummary(data.deterministic_result);
-    }
-    livePanel.innerHTML = renderArchitectResult(data.result);
-    renderSafetyPanel('architect', data);
-    renderTracePanel('architect', data);
-  }).catch(function(err) {
-    loadingEl.classList.add('hidden');
-    fallbackToDeterministic('architect', err);
-  });
-}
-
 /* ---- Reviewer Assist — Live Assist ---- */
 function runReviewerLive() {
   var loading = document.getElementById('reviewerLoading');
@@ -417,31 +379,6 @@ function runReviewerLive() {
     renderTracePanel('reviewer', data);
   }).catch(function(err) {
     loading.classList.add('hidden');
-    fallbackToDeterministic('reviewer', err);
-  });
-}
-
-/* ---- Reviewer Assist — Shadow ---- */
-function runReviewerShadow() {
-  var detPanel = document.getElementById('reviewerShadowDeterministic');
-  var livePanel = document.getElementById('reviewerShadowLive');
-  var loadingEl = document.getElementById('reviewerShadowLoading');
-
-  detPanel.innerHTML = '<div class="shadow-placeholder">Deterministic result will appear when API responds</div>';
-  livePanel.innerHTML = '';
-  loadingEl.classList.remove('hidden');
-
-  callApi('reviewer', 'shadow').then(function(data) {
-    loadingEl.classList.add('hidden');
-    lastReviewerResponse = data;
-    if (data.deterministic_result) {
-      detPanel.innerHTML = renderDeterministicSummary(data.deterministic_result);
-    }
-    livePanel.innerHTML = renderReviewerResult(data.result);
-    renderSafetyPanel('reviewer', data);
-    renderTracePanel('reviewer', data);
-  }).catch(function(err) {
-    loadingEl.classList.add('hidden');
     fallbackToDeterministic('reviewer', err);
   });
 }
@@ -607,15 +544,12 @@ function renderReferenceChips(refs) {
   }).join(' ');
 }
 
-function renderPolicyLockSummary(policyLock) {
-  if (!policyLock || !policyLock.policies) {
+function renderPolicyPackSummary(policyPack) {
+  if (!policyPack || !policyPack.domains) {
     return 'not available';
   }
-  var entries = Object.keys(policyLock.policies).map(function(key) {
-    var policy = policyLock.policies[key];
-    return '<code>' + esc(key + '@' + policy.ref) + '</code>';
-  }).join(' ');
-  return 'v' + esc(policyLock.version || 'n/a') + ' · ' + entries;
+  var domains = Object.keys(policyPack.domains).join(', ');
+  return 'v' + esc(policyPack.version || 'n/a') + ' · ' + esc(policyPack.source_repo || 'engine') + '/' + esc(policyPack.source_path || 'policies') + ' · ' + esc(domains);
 }
 
 /* ---- Safety Panel ---- */
@@ -627,7 +561,7 @@ function renderSafetyPanel(agent, data) {
   var bs = data.budget_summary || {};
   var trace = data.trace || {};
   var sc = trace.safety_checks || {};
-  var policyLock = data.policy_lock || PUBLIC_POLICY_LOCK;
+  var policyPack = data.policy_pack || PUBLIC_POLICY_PACK;
   var evidenceRefs = data.evidence_references || collectEvidenceReferences(data.result, agent);
   var toolsAllowed = agent === 'architect'
     ? ['schema-validate', 'policy-lookup']
@@ -653,7 +587,7 @@ function renderSafetyPanel(agent, data) {
   html += safetyItem('Mode Selected', esc(mode));
   html += safetyItem('Provider', mode === 'deterministic' ? 'deterministic baseline' : 'OpenRouter');
   html += safetyItem('Model', trace.model || (mode === 'deterministic' ? 'not applicable' : 'minimax/minimax-m2.5'));
-  html += safetyItem('Policy Lock', renderPolicyLockSummary(policyLock));
+  html += safetyItem('Policy Pack', renderPolicyPackSummary(policyPack));
   html += safetyItem('Safety Status', '<span style="color:' + statusColor + ';">' + esc(data.safety_status || '—') + '</span>');
   html += safetyItem('Step Budget', stepBudget);
   html += safetyItem('Tool Call Budget', toolCallBudget);
@@ -671,7 +605,7 @@ function renderSafetyPanel(agent, data) {
   html += safetyItem('Escalation Condition', esc(escalationReasons));
   html += safetyItem('Trace ID', '<code>' + esc(data.trace_id || '—') + '</code>');
   html += safetyItem('Evidence References', evidenceRefs.length ? renderReferenceChips(evidenceRefs) : 'awaiting live evidence');
-  html += safetyItem('Hidden Runtime Role', 'Safety Governor / Operational Gate');
+  html += safetyItem('Runtime Guardrails', 'Tool allowlist, budgets, redaction, fallback, and escalation stay visible.');
   if (trace.deterministic_fallback_used || data.fallback_status === 'deterministic-fallback-used') {
     html += safetyItem('Fallback', '<span style="color:var(--amber);">deterministic fallback used</span>');
   }
@@ -696,8 +630,8 @@ function renderTracePanel(agent, data) {
   html += '<span>Completed: ' + esc(trace.completed_at || '') + '</span>';
   html += '</div>';
 
-  if (data.policy_lock) {
-    html += '<div class=\"trace-section-label\">Policy Lock</div><div class=\"result-chip-row\">' + renderReferenceChips(Object.keys(data.policy_lock.policies || {}).map(function(key) { return key + '@' + data.policy_lock.policies[key].ref; })) + '</div>';
+  if (data.policy_pack) {
+    html += '<div class=\"trace-section-label\">Policy Pack</div><div class=\"result-chip-row\">' + renderReferenceChips(flattenPolicyPackRefs(data.policy_pack)) + '</div>';
   }
 
   if (data.evidence_references && data.evidence_references.length) {
@@ -759,6 +693,20 @@ function formatTime(ts) {
     var d = new Date(ts);
     return d.toLocaleTimeString();
   } catch (_) { return ts; }
+}
+
+function flattenPolicyPackRefs(policyPack) {
+  if (!policyPack || !policyPack.domains) {
+    return [];
+  }
+  var refs = [];
+  Object.keys(policyPack.domains).forEach(function(domain) {
+    refs.push(domain);
+    (policyPack.domains[domain] || []).forEach(function(file) {
+      refs.push(file);
+    });
+  });
+  return refs;
 }
 
 /* ---- Helpers ---- */
