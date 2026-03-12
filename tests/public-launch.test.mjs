@@ -69,8 +69,10 @@ test('public repo does not ship the archival handoff note', () => {
 });
 
 test('demo points at the active Deno Deploy host', () => {
-  assert.match(appJs, /https:\/\/aiden-engine\.wpldev\.deno\.net/);
-  assert.match(readme, /https:\/\/aiden-engine\.wpldev\.deno\.net/);
+  assert.match(appJs, /https:\/\/aiden-engine-v27n5gsehf86\.wpldev\.deno\.net/);
+  assert.match(readme, /https:\/\/aiden-engine-v27n5gsehf86\.wpldev\.deno\.net/);
+  assert.ok(!/https:\/\/aiden-engine\.wpldev\.deno\.net/.test(appJs));
+  assert.ok(!/https:\/\/aiden-engine\.wpldev\.deno\.net/.test(readme));
   assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(appJs));
   assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(readme));
 });
