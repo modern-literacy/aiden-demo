@@ -4,9 +4,18 @@
    ======================================== */
 
 /* ---- Configuration ---- */
-// Set this to the active deployment URL for aiden-engine.
+// `config.js` (or any earlier inline config) may set `window.AIDEN_CONFIG.engineBaseUrl`.
 // Leave empty string to force deterministic-only mode (no API calls).
-var API_BASE_URL = 'https://aiden-engine-v27n5gsehf86.wpldev.deno.net';
+function normalizeBaseUrl(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  return value.replace(/\/+$/, '');
+}
+
+var API_BASE_URL = normalizeBaseUrl(
+  window.AIDEN_CONFIG && window.AIDEN_CONFIG.engineBaseUrl
+);
 
 /* ---- Sample Proposal (embedded from handoff) ---- */
 var SAMPLE_PROPOSAL = {
@@ -106,15 +115,34 @@ var DELTA_SCENARIOS = {
 };
 
 var PUBLIC_POLICY_PACK = {
-  version: '1.0.0',
-  published_at: '2026-03-11T03:00:00Z',
-  source_repo: 'modern-literacy/aiden-engine',
-  source_path: 'policies',
+  version: '2026.03.12',
+  published_at: '2026-03-12T12:00:00Z',
+  source_repo: 'modern-literacy/aiden-policies',
+  source_path: '.',
+  manifest_path: 'policy-manifest.json',
+  source_commit: 'pinned-d0c0bc75935b68e0',
+  packs: {
+    arch: {
+      path: 'arch',
+      version: '1.0.0',
+      sha: 'sha256:fdf5cd182672e67f233b0b18ce676bb433ad9118b8988cbaddcc04456afaefe5'
+    },
+    controls: {
+      path: 'controls',
+      version: '1.0.0',
+      sha: 'sha256:d7bf7d211a2288e1e8af9c8d199e4f61bbca76c9f671b3eccd2970902dc4b61f'
+    },
+    hipaa: {
+      path: 'hipaa',
+      version: '1.0.0',
+      sha: 'sha256:b73b7c25f99b6076e2dd93c3beb1e6cc19d9f0a1a163c006a4d56b8bde7670ef'
+    }
+  },
   domains: {
     'data-privacy': ['hipaa/phi-handling.yaml'],
-    architecture: ['architecture/cloud-infrastructure.yaml'],
-    security: ['security/authentication.yaml', 'security/operations.yaml'],
-    governance: ['security/governance.yaml']
+    architecture: ['arch/agent-architecture.yaml', 'arch/cloud-infrastructure.yaml'],
+    security: ['controls/security/authentication.yaml', 'controls/operations/operations.yaml'],
+    governance: ['controls/governance/governance.yaml']
   }
 };
 
@@ -156,7 +184,7 @@ function switchTab(tabId) {
 function setMode(mode, agent, options) {
   options = options || {};
   if (!API_BASE_URL && mode !== 'deterministic') {
-    showError(agent, 'API_BASE_URL is not configured. Set it in app.js to enable live modes.');
+    showError(agent, 'API_BASE_URL is not configured. Set window.AIDEN_CONFIG.engineBaseUrl in config.js to enable live modes.');
     return;
   }
   applyModeState(mode, agent);
@@ -548,8 +576,14 @@ function renderPolicyPackSummary(policyPack) {
   if (!policyPack || !policyPack.domains) {
     return 'not available';
   }
-  var domains = Object.keys(policyPack.domains).join(', ');
-  return 'v' + esc(policyPack.version || 'n/a') + ' · ' + esc(policyPack.source_repo || 'engine') + '/' + esc(policyPack.source_path || 'policies') + ' · ' + esc(domains);
+  var packSummary = [];
+  var packs = policyPack.packs || {};
+  Object.keys(packs).forEach(function(name) {
+    var pack = packs[name] || {};
+    packSummary.push(name + ' v' + (pack.version || 'n/a'));
+  });
+  var commit = policyPack.source_commit ? '@' + esc(policyPack.source_commit) : '';
+  return 'Pinned ' + esc(packSummary.join(', ') || 'policy packs') + ' from ' + esc(policyPack.source_repo || 'modern-literacy/aiden-policies') + commit + '.';
 }
 
 /* ---- Safety Panel ---- */

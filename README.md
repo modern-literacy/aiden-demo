@@ -60,10 +60,11 @@ The demo visibly exposes:
 - confidence and uncertainty markers
 
 ## API configuration
-The `API_BASE_URL` variable in `app.js` controls the backend.
+`config.js` controls the backend at runtime.
 
-- Current: `https://aiden-engine-v27n5gsehf86.wpldev.deno.net`
-- Set to empty string `''` to force deterministic-only mode
+- Generate it from env: `AIDEN_ENGINE_BASE_URL=https://your-engine-host node scripts/render-runtime-config.mjs`
+- Set `AIDEN_ENGINE_BASE_URL` to empty string to force deterministic-only mode
+- `app.js` reads `window.AIDEN_CONFIG.engineBaseUrl`; it no longer carries a literal backend host
 
 The backend repo is [modern-literacy/aiden-engine](https://github.com/modern-literacy/aiden-engine).
 
@@ -72,7 +73,9 @@ Open `index.html` in a browser. No build step or server is required.
 
 ## Files
 - `index.html` — main UI, contract block, assistive role surfaces, architecture tab
+- `config.js` — runtime engine URL config loaded before the app
 - `app.js` — mode switching, API client, evidence rendering, safety and trace panels
+- `scripts/render-runtime-config.mjs` — writes `config.js` from `AIDEN_ENGINE_BASE_URL`
 - `style.css` — static design system and responsive layout
 - `tests/public-launch.test.mjs` — text-based public contract regression checks
 

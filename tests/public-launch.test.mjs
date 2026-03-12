@@ -5,6 +5,9 @@ import fs from 'node:fs';
 const indexHtml = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const appJs = fs.readFileSync(new URL('../app.js', import.meta.url), 'utf8');
 const readme = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
+const runtimeConfigPath = new URL('../config.js', import.meta.url);
+const runtimeConfigExists = fs.existsSync(runtimeConfigPath);
+const runtimeConfigJs = runtimeConfigExists ? fs.readFileSync(runtimeConfigPath, 'utf8') : '';
 const handoffPath = new URL('../HANDOFF-PHASE-F.md', import.meta.url);
 const handoffExists = fs.existsSync(handoffPath);
 
@@ -68,13 +71,17 @@ test('public repo does not ship the archival handoff note', () => {
   assert.equal(handoffExists, false);
 });
 
-test('demo points at the active Deno Deploy host', () => {
-  assert.match(appJs, /https:\/\/aiden-engine-v27n5gsehf86\.wpldev\.deno\.net/);
-  assert.match(readme, /https:\/\/aiden-engine-v27n5gsehf86\.wpldev\.deno\.net/);
-  assert.ok(!/https:\/\/aiden-engine\.wpldev\.deno\.net/.test(appJs));
-  assert.ok(!/https:\/\/aiden-engine\.wpldev\.deno\.net/.test(readme));
-  assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(appJs));
-  assert.ok(!/https:\/\/aiden-engine\.deno\.dev/.test(readme));
+test('demo resolves engine identity from runtime config instead of a hardcoded host', () => {
+  assert.equal(runtimeConfigExists, true);
+  assert.match(indexHtml, /<script src="\.\/config\.js"><\/script>\s*<script src="\.\/app\.js"><\/script>/i);
+  assert.match(runtimeConfigJs, /window\.AIDEN_CONFIG/);
+  assert.match(runtimeConfigJs, /engineBaseUrl/);
+  assert.match(appJs, /window\.AIDEN_CONFIG/);
+  assert.match(appJs, /engineBaseUrl/);
+  assert.ok(!/https:\/\/aiden-engine/i.test(appJs));
+  assert.ok(!/https:\/\/aiden-engine/i.test(readme));
+  assert.match(readme, /AIDEN_ENGINE_BASE_URL/);
+  assert.match(readme, /config\.js/);
 });
 
 test('public mode surface exposes only deterministic and live assist', () => {
