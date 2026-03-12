@@ -98,27 +98,3 @@ test('copy regression: promises stay narrow and human review stays explicit', ()
     assert.ok(!rx.test(surfaces), `banned claim present: ${rx}`);
   }
 });
-
-test('copy regression: promises stay narrow and human review stays explicit', () => {
-  const surfaces = [indexHtml, readme].join('\n\n');
-
-  // Required contract language
-  assert.match(surfaces, /human review required/i);
-  assert.match(surfaces, /deterministic baseline/i);
-  assert.match(surfaces, /internal/i);
-
-  // Ban/flag promise creep
-  const banned = [
-    /autonomous approval/i,
-    /auto-?approve/i,
-    /full compliance automation/i,
-    /compliance auto-approval/i,
-    /enterprise onboarding platform/i,
-    /replaces reviewers/i,
-    /self-?healing governance/i,
-    /complete architecture automation/i,
-  ];
-  for (const rx of banned) {
-    assert.ok(!rx.test(surfaces), `banned claim present: ${rx}`);
-  }
-});
