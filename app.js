@@ -171,6 +171,46 @@ var DELTA_SCENARIOS = {
   }
 };
 
+var PUBLIC_POLICY_LOCK = {
+  version: '1.0.0',
+  locked_at: '2026-03-11T03:00:00Z',
+  policies: {
+    hipaa: {
+      repo: 'modern-literacy/aiden-policies-hipaa',
+      ref: 'v1.0.0',
+      sha: '430a79d59c8614e7d21185cdb2f3c8674e7a8482'
+    },
+    controls: {
+      repo: 'modern-literacy/aiden-policies-controls',
+      ref: 'v1.0.0',
+      sha: 'c63f5dc3c1d8dd6a6dea07c88f20bfd0729a1584'
+    },
+    arch: {
+      repo: 'modern-literacy/aiden-policies-arch',
+      ref: 'v1.0.0',
+      sha: 'edd4ad61ec801531c3c448f351761c7ed96d1fe3'
+    }
+  }
+};
+
+var LIVE_ASSIST_BUDGETS = {
+  architect: { steps: 8, toolCalls: 4, timeSeconds: 60, tokens: 4000, costUsd: 0.10 },
+  reviewer: { steps: 10, toolCalls: 5, timeSeconds: 90, tokens: 6000, costUsd: 0.15 }
+};
+
+var DETERMINISTIC_EVIDENCE = {
+  architect: {
+    traceId: 'deterministic-architect-demo',
+    summary: 'Client-side proposal shaping walkthrough using seeded public-safe prompts and pinned policy references.',
+    evidenceRefs: ['schema:proposal', 'HIPAA-PROMPT-004', 'ARCH-AGENT-003']
+  },
+  reviewer: {
+    traceId: 'deterministic-reviewer-demo',
+    summary: 'Seeded deterministic gate walkthrough using the pinned public policy pack and sample evidence findings.',
+    evidenceRefs: ['SEC-RBAC-002', 'SEC-VUL-002', 'OPS-RUN-001', 'GOV-BIAS-001']
+  }
+};
+
 /* ---- State ---- */
 var architectMode = 'deterministic';
 var reviewerMode = 'deterministic';
@@ -219,10 +259,12 @@ function applyModeState(mode, agent) {
     architectMode = mode;
     hideError('architect');
     toggleView('architect', mode);
+    syncEvidencePanels('architect');
   } else {
     reviewerMode = mode;
     hideError('reviewer');
     toggleView('reviewer', mode);
+    syncEvidencePanels('reviewer');
   }
 }
 
@@ -237,8 +279,98 @@ function toggleView(agent, mode) {
   det.classList.toggle('hidden', mode !== 'deterministic');
   live.classList.toggle('hidden', mode !== 'live-assist');
   shadow.classList.toggle('hidden', mode !== 'shadow');
-  safety.classList.toggle('hidden', mode === 'deterministic');
-  trace.classList.toggle('hidden', mode === 'deterministic');
+  safety.classList.remove('hidden');
+  trace.classList.remove('hidden');
+}
+
+function getAgentBudget(agent) {
+  return LIVE_ASSIST_BUDGETS[agent === 'architect' ? 'architect' : 'reviewer'];
+}
+
+function buildPendingAssistState(agent) {
+  var budget = getAgentBudget(agent);
+  return {
+    mode: agent === 'architect' ? architectMode : reviewerMode,
+    result: null,
+    policy_lock: PUBLIC_POLICY_LOCK,
+    budget_summary: {
+      steps_used: 0,
+      steps_limit: budget.steps,
+      tool_calls_used: 0,
+      tool_calls_limit: budget.toolCalls,
+      tokens_used: 0,
+      tokens_limit: budget.tokens,
+      cost_usd: 0,
+      cost_limit_usd: budget.costUsd,
+      wall_clock_ms: 0,
+      wall_clock_limit_ms: budget.timeSeconds * 1000
+    },
+    safety_status: 'ok',
+    trace_id: 'pending-live-assist',
+    fallback_status: 'live-assist-pending',
+    escalation_status: 'not_required',
+    escalation_reasons: [],
+    evidence_references: [],
+    trace: {
+      agent_profile: agent === 'architect' ? 'Architect Assist' : 'Reviewer Assist',
+      model: 'minimax/minimax-m2.5',
+      started_at: 'awaiting live-assist run',
+      completed_at: 'awaiting live-assist run',
+      steps: [],
+      tool_calls: [],
+      safety_checks: {
+        input_check: { passed: true, reason: 'Sanitized sample data only' },
+        output_check: { passed: true, reason: 'No live output yet' }
+      }
+    }
+  };
+}
+
+function buildDeterministicDemoState(agent) {
+  var evidence = DETERMINISTIC_EVIDENCE[agent === 'architect' ? 'architect' : 'reviewer'];
+  return {
+    mode: 'deterministic',
+    result: null,
+    policy_lock: PUBLIC_POLICY_LOCK,
+    budget_summary: null,
+    safety_status: 'ok',
+    trace_id: evidence.traceId,
+    fallback_status: 'deterministic-baseline',
+    escalation_status: 'not_required',
+    escalation_reasons: [],
+    evidence_references: evidence.evidenceRefs,
+    trace: {
+      agent_profile: agent === 'architect' ? 'Architect Assist — deterministic baseline' : 'Reviewer Assist — deterministic baseline',
+      model: 'not applicable',
+      started_at: 'client-side public-safe baseline',
+      completed_at: 'client-side public-safe baseline',
+      steps: [
+        {
+          step_number: 1,
+          type: 'final_result',
+          content: evidence.summary,
+          timestamp: 'public-safe deterministic baseline'
+        }
+      ],
+      tool_calls: [],
+      safety_checks: {
+        input_check: { passed: true, reason: 'Sanitized sample data only' },
+        output_check: { passed: true, reason: 'Deterministic public-safe walkthrough' }
+      }
+    }
+  };
+}
+
+function syncEvidencePanels(agent) {
+  var mode = agent === 'architect' ? architectMode : reviewerMode;
+  var lastResponse = agent === 'architect' ? lastArchitectResponse : lastReviewerResponse;
+  var data = mode === 'deterministic'
+    ? buildDeterministicDemoState(agent)
+    : lastResponse && lastResponse.mode === mode
+      ? lastResponse
+      : buildPendingAssistState(agent);
+  renderSafetyPanel(agent, data);
+  renderTracePanel(agent, data);
 }
 
 /* ---- Panel Toggle (expand/collapse) ---- */
@@ -293,7 +425,7 @@ function callApi(endpoint, mode) {
   });
 }
 
-/* ---- Architect Agent — Live Assist ---- */
+/* ---- Architect Assist — Live Assist ---- */
 function runArchitectLive() {
   var loading = document.getElementById('architectLoading');
   var result = document.getElementById('architectLiveResult');
@@ -312,7 +444,7 @@ function runArchitectLive() {
   });
 }
 
-/* ---- Architect Agent — Shadow ---- */
+/* ---- Architect Assist — Shadow ---- */
 function runArchitectShadow() {
   var detPanel = document.getElementById('architectShadowDeterministic');
   var livePanel = document.getElementById('architectShadowLive');
@@ -337,7 +469,7 @@ function runArchitectShadow() {
   });
 }
 
-/* ---- Reviewer Agent — Live Assist ---- */
+/* ---- Reviewer Assist — Live Assist ---- */
 function runReviewerLive() {
   var loading = document.getElementById('reviewerLoading');
   var result = document.getElementById('reviewerLiveResult');
@@ -356,7 +488,7 @@ function runReviewerLive() {
   });
 }
 
-/* ---- Reviewer Agent — Shadow ---- */
+/* ---- Reviewer Assist — Shadow ---- */
 function runReviewerShadow() {
   var detPanel = document.getElementById('reviewerShadowDeterministic');
   var livePanel = document.getElementById('reviewerShadowLive');
@@ -425,6 +557,11 @@ function renderArchitectResult(result) {
     html += '<div class="result-section"><div class="result-label">Confidence</div><div class="result-text">' + esc(result.confidence) + (result.uncertainty_notes ? ' — ' + esc(result.uncertainty_notes) : '') + '</div></div>';
   }
 
+  var architectEvidenceRefs = collectEvidenceReferences(result, 'architect');
+  if (architectEvidenceRefs.length) {
+    html += '<div class=\"result-section\"><div class=\"result-label\">Evidence References</div><div class=\"result-chip-row\">' + renderReferenceChips(architectEvidenceRefs) + '</div></div>';
+  }
+
   html += '</div>';
   return html;
 }
@@ -474,6 +611,11 @@ function renderReviewerResult(result) {
     html += '<div class="result-section"><div class="result-label">Confidence</div><div class="result-text">' + esc(result.confidence) + (result.uncertainty_notes ? ' — ' + esc(result.uncertainty_notes) : '') + '</div></div>';
   }
 
+  var reviewerEvidenceRefs = collectEvidenceReferences(result, 'reviewer');
+  if (reviewerEvidenceRefs.length) {
+    html += '<div class=\"result-section\"><div class=\"result-label\">Evidence References</div><div class=\"result-chip-row\">' + renderReferenceChips(reviewerEvidenceRefs) + '</div></div>';
+  }
+
   html += '</div>';
   return html;
 }
@@ -503,28 +645,87 @@ function renderDeterministicSummary(det) {
   return html;
 }
 
+function collectEvidenceReferences(result, agent) {
+  var refs = [];
+  if (!result) {
+    return DETERMINISTIC_EVIDENCE[agent === 'architect' ? 'architect' : 'reviewer'].evidenceRefs.slice();
+  }
+  if (result.gaps_found) {
+    result.gaps_found.forEach(function(item) {
+      if (item.policy_ref) refs.push(item.policy_ref);
+    });
+  }
+  if (result.recommendations) {
+    result.recommendations.forEach(function(item) {
+      if (item.policy_ref) refs.push(item.policy_ref);
+    });
+  }
+  if (result.findings) {
+    result.findings.forEach(function(item) {
+      if (item.rule_id) refs.push(item.rule_id);
+    });
+  }
+  return Array.from(new Set(refs));
+}
+
+function renderReferenceChips(refs) {
+  return refs.map(function(ref) {
+    return '<code class=\"reference-chip\">' + esc(ref) + '</code>';
+  }).join(' ');
+}
+
+function renderPolicyLockSummary(policyLock) {
+  if (!policyLock || !policyLock.policies) {
+    return 'not available';
+  }
+  var entries = Object.keys(policyLock.policies).map(function(key) {
+    var policy = policyLock.policies[key];
+    return '<code>' + esc(key + '@' + policy.ref) + '</code>';
+  }).join(' ');
+  return 'v' + esc(policyLock.version || 'n/a') + ' · ' + entries;
+}
+
 /* ---- Safety Panel ---- */
 function renderSafetyPanel(agent, data) {
   var body = document.getElementById(agent + 'SafetyBody');
-  if (!data) { body.innerHTML = ''; return; }
-
+  if (!data) { body.innerHTML = '<div class=\"empty-state\">No safety data yet</div>'; return; }
+  var mode = data.mode || 'deterministic';
+  var budget = getAgentBudget(agent);
   var bs = data.budget_summary || {};
   var trace = data.trace || {};
   var sc = trace.safety_checks || {};
+  var policyLock = data.policy_lock || PUBLIC_POLICY_LOCK;
+  var evidenceRefs = data.evidence_references || collectEvidenceReferences(data.result, agent);
   var toolsAllowed = agent === 'architect'
     ? ['schema-validate', 'policy-lookup']
     : ['policy-lookup', 'precedent-lookup', 'delta-check', 'schema-validate'];
+  var stepBudget = mode === 'deterministic'
+    ? 'not used · deterministic baseline'
+    : (bs.steps_used || 0) + ' / ' + (bs.steps_limit || budget.steps);
+  var toolCallBudget = mode === 'deterministic'
+    ? 'not used · deterministic baseline'
+    : (bs.tool_calls_used || 0) + ' / ' + (bs.tool_calls_limit || budget.toolCalls);
+  var timeBudget = mode === 'deterministic'
+    ? 'not used · deterministic baseline'
+    : (bs.wall_clock_ms || 0) + 'ms / ' + (bs.wall_clock_limit_ms || (budget.timeSeconds * 1000)) + 'ms';
+  var costTokenBudget = mode === 'deterministic'
+    ? 'not used · deterministic baseline'
+    : (bs.tokens_used || 0) + ' / ' + (bs.tokens_limit || budget.tokens) + ' tokens · $' + (bs.cost_usd || 0).toFixed(4) + ' / $' + (bs.cost_limit_usd || budget.costUsd).toFixed(2);
+  var escalationReasons = data.escalation_reasons && data.escalation_reasons.length
+    ? data.escalation_reasons.join(' · ')
+    : 'safety gate flag, budget exhaustion, low confidence, policy conflict, or fallback engagement';
 
   var statusColor = data.safety_status === 'ok' ? 'var(--green)' : 'var(--red)';
-  var html = '<div class=\"safety-contract-blurb\"><strong>Public Demo Contract:</strong> sanitized sample data, no autonomous writes, no open-web browsing, human review required, tool allowlist enforced, deterministic fallback when live assist is unavailable.</div><div class=\"safety-grid\">';
-  html += safetyItem('Mode', data.mode || '—');
-  html += safetyItem('Provider', 'OpenRouter');
-  html += safetyItem('Model', trace.model || 'minimax/minimax-m2.5');
+  var html = '<div class=\\\"safety-contract-blurb\\\"><strong>Public Demo Contract:</strong> sanitized sample data only, no autonomous writes, no open-web browsing, human review required, tool allowlist enforced, trace redaction enforced, and the step budget, tool-call budget, time budget, cost/token budget, and escalation condition are visible.</div><div class=\\\"safety-grid\\\">';
+  html += safetyItem('Mode Selected', esc(mode));
+  html += safetyItem('Provider', mode === 'deterministic' ? 'deterministic baseline' : 'OpenRouter');
+  html += safetyItem('Model', trace.model || (mode === 'deterministic' ? 'not applicable' : 'minimax/minimax-m2.5'));
+  html += safetyItem('Policy Lock', renderPolicyLockSummary(policyLock));
   html += safetyItem('Safety Status', '<span style="color:' + statusColor + ';">' + esc(data.safety_status || '—') + '</span>');
-  html += safetyItem('Steps', (bs.steps_used || 0) + ' / ' + (bs.steps_limit || '—'));
-  html += safetyItem('Tokens', (bs.tokens_used || 0) + ' / ' + (bs.tokens_limit || '—'));
-  html += safetyItem('Cost', '$' + (bs.cost_usd || 0).toFixed(4) + ' / $' + (bs.cost_limit_usd || 0).toFixed(2));
-  html += safetyItem('Wall Clock', (bs.wall_clock_ms || 0) + 'ms / ' + (bs.wall_clock_limit_ms || 0) + 'ms');
+  html += safetyItem('Step Budget', stepBudget);
+  html += safetyItem('Tool Call Budget', toolCallBudget);
+  html += safetyItem('Time Budget', timeBudget);
+  html += safetyItem('Cost/Token Budget', costTokenBudget);
   html += safetyItem('Tools Allowed', toolsAllowed.map(function(t) { return '<code>' + t + '</code>'; }).join(' '));
   html += safetyItem('Input Safety', sc.input_check ? (sc.input_check.passed ? '✓ passed' : '✗ ' + esc(sc.input_check.reason || 'failed')) : '—');
   html += safetyItem('Output Safety', sc.output_check ? (sc.output_check.passed ? '✓ passed' : '✗ ' + esc(sc.output_check.reason || 'failed')) : '—');
@@ -532,9 +733,13 @@ function renderSafetyPanel(agent, data) {
   html += safetyItem('Autonomous Writes', 'disabled');
   html += safetyItem('Open-Web Browsing', 'not allowed');
   html += safetyItem('Human Review', 'required');
-  html += safetyItem('Escalation', data.safety_status === 'flagged' ? '<span style="color:var(--red);">triggered</span>' : 'none');
+  html += safetyItem('Fallback Status', esc(data.fallback_status || (mode === 'deterministic' ? 'deterministic-baseline' : 'live-assist-active')));
+  html += safetyItem('Escalation Status', data.escalation_status === 'required' ? '<span style=\"color:var(--red);\">required</span>' : 'not required');
+  html += safetyItem('Escalation Condition', esc(escalationReasons));
   html += safetyItem('Trace ID', '<code>' + esc(data.trace_id || '—') + '</code>');
-  if (trace.deterministic_fallback_used) {
+  html += safetyItem('Evidence References', evidenceRefs.length ? renderReferenceChips(evidenceRefs) : 'awaiting live evidence');
+  html += safetyItem('Hidden Runtime Role', 'Safety Governor / Operational Gate');
+  if (trace.deterministic_fallback_used || data.fallback_status === 'deterministic-fallback-used') {
     html += safetyItem('Fallback', '<span style="color:var(--amber);">deterministic fallback used</span>');
   }
   html += '</div>';
@@ -553,9 +758,18 @@ function renderTracePanel(agent, data) {
   var trace = data.trace;
   var html = '<div class="trace-meta">';
   html += '<span>Agent: <strong>' + esc(trace.agent_profile || '') + '</strong></span>';
+  html += '<span>Mode: <strong>' + esc(data.mode || 'deterministic') + '</strong></span>';
   html += '<span>Started: ' + esc(trace.started_at || '') + '</span>';
   html += '<span>Completed: ' + esc(trace.completed_at || '') + '</span>';
   html += '</div>';
+
+  if (data.policy_lock) {
+    html += '<div class=\"trace-section-label\">Policy Lock</div><div class=\"result-chip-row\">' + renderReferenceChips(Object.keys(data.policy_lock.policies || {}).map(function(key) { return key + '@' + data.policy_lock.policies[key].ref; })) + '</div>';
+  }
+
+  if (data.evidence_references && data.evidence_references.length) {
+    html += '<div class=\"trace-section-label\">Evidence References</div><div class=\"result-chip-row\">' + renderReferenceChips(data.evidence_references) + '</div>';
+  }
 
   if (trace.steps && trace.steps.length) {
     html += '<div class="trace-timeline">';
@@ -631,7 +845,7 @@ var chatSteps = [
   {
     category: 'overview', tagClass: 'tag-overview', tagLabel: 'Solution Overview',
     agentMessages: [
-      'Welcome to the AIDEN Architect Agent. I\'ll guide you through building a proposal that meets enterprise policy requirements.\n\n<span class="category-tag tag-overview">Solution Overview</span>\n\nDescribe the AI solution you\'re proposing. What does it do, who uses it, and what tier do you expect?',
+      'Welcome to AIDEN Architect Assist. I\'ll guide you through building a proposal that meets enterprise policy requirements.\n\n<span class=\"category-tag tag-overview\">Solution Overview</span>\n\nDescribe the AI solution you\'re proposing. What does it do, who uses it, and what tier do you expect?',
       'Be specific about: <strong>primary function</strong>, <strong>target users</strong> (internal vs. external), <strong>data it accesses</strong>, and <strong>deployment scope</strong>.'
     ],
     userResponse: 'We\'re proposing an <strong>AI Code Review Assistant</strong> that integrates with our internal GitHub Enterprise instance. It uses an LLM to provide automated code review suggestions on pull requests.\n\n<strong>Function:</strong> Static analysis + LLM-powered review comments on PRs.\n<strong>Users:</strong> ~300 internal software engineers. No external users.\n<strong>Data:</strong> Source code from internal repositories only. No PHI, no PII.\n<strong>Tier:</strong> <code>internal-tool</code>',
@@ -705,16 +919,16 @@ function advanceChat() {
   nextBtn.disabled = true;
   nextBtn.style.opacity = '0.5';
 
-  var typingMsg = createMessage('agent', 'ARCHITECT', '<div class="typing-indicator"><span></span><span></span><span></span></div>');
+  var typingMsg = createMessage('agent', 'ARCHITECT ASSIST', '<div class=\"typing-indicator\"><span></span><span></span><span></span></div>');
   container.appendChild(typingMsg);
   scrollChat();
 
   setTimeout(function() {
     container.removeChild(typingMsg);
-    container.appendChild(createMessage('agent', 'ARCHITECT', step.agentMessages[0]));
+    container.appendChild(createMessage('agent', 'ARCHITECT ASSIST', step.agentMessages[0]));
     scrollChat();
     setTimeout(function() {
-      container.appendChild(createMessage('agent', 'ARCHITECT', step.agentMessages[1]));
+      container.appendChild(createMessage('agent', 'ARCHITECT ASSIST', step.agentMessages[1]));
       scrollChat();
       setTimeout(function() {
         container.appendChild(createMessage('user', 'ENGINEER', step.userResponse));
@@ -773,7 +987,7 @@ function updateProgress(stepNum) {
   if (el) el.textContent = pct + '% Complete';
 }
 
-/* ---- Reviewer Agent (Deterministic) ---- */
+/* ---- Reviewer Assist (Deterministic) ---- */
 var reviewStarted = false;
 
 function startReview() {
@@ -948,7 +1162,7 @@ function checkApiHealth() {
     return res.json();
   }).then(function(data) {
     if (data.status === 'ok') {
-      statusEl.innerHTML = '<span class=\"api-online\">Budget-limited live assist available</span>';
+      statusEl.innerHTML = '<span class=\\\"api-online\\\">Bounded live assist available</span>';
     } else {
       statusEl.innerHTML = '<span class=\"api-offline\">Live assist unavailable · deterministic fallback active</span>';
     }
@@ -961,5 +1175,7 @@ function checkApiHealth() {
 document.addEventListener('DOMContentLoaded', function() {
   switchTab('hero');
   renderDeltaScenario();
+  applyModeState('deterministic', 'architect');
+  applyModeState('deterministic', 'reviewer');
   checkApiHealth();
 });

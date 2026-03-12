@@ -21,10 +21,38 @@ test('public demo contract is visible to a cold visitor', () => {
   assert.match(readme, /human review required/i);
 });
 
+test('visible assistive roles and the hidden safety governor are explicit', () => {
+  assert.match(indexHtml, /architect assist/i);
+  assert.match(indexHtml, /reviewer assist/i);
+  assert.match(indexHtml, /safety governor/i);
+  assert.match(indexHtml, /operational gate/i);
+  assert.match(readme, /architect assist/i);
+  assert.match(readme, /reviewer assist/i);
+});
+
+test('public contract names the budget and escalation envelope', () => {
+  assert.match(indexHtml, /step budget/i);
+  assert.match(indexHtml, /tool-call budget/i);
+  assert.match(indexHtml, /time budget/i);
+  assert.match(indexHtml, /cost\/token budget/i);
+  assert.match(indexHtml, /escalation condition/i);
+  assert.match(readme, /step budget/i);
+  assert.match(readme, /tool-call budget/i);
+  assert.match(readme, /time budget/i);
+});
+
 test('delta engine keeps exception intelligence but defaults to remediation-first framing', () => {
   assert.match(appJs, /remediation-first/i);
   assert.match(appJs, /exception intelligence/i);
   assert.match(indexHtml, /budget-limited live assist/i);
+});
+
+test('live evidence surface publishes policy refs and explicit fallback or escalation labels', () => {
+  assert.match(appJs, /policy lock/i);
+  assert.match(appJs, /tool call budget/i);
+  assert.match(appJs, /fallback status/i);
+  assert.match(appJs, /escalation status/i);
+  assert.match(appJs, /evidence references/i);
 });
 
 test('handoff captures public launch hygiene before the visibility flip', () => {

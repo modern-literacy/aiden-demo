@@ -139,7 +139,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .scope-key { color: var(--text-muted); font-weight: 500; }
 .scope-val { color: var(--teal-400); font-weight: 600; }
 
-/* ---- COPILOT TAB (Architect Agent — Deterministic) ---- */
+/* ---- COPILOT TAB (Architect Assist — Deterministic) ---- */
 .copilot-layout { display: grid; grid-template-columns: 1fr 1fr; flex: 1; min-height: 0; height: 100%; overflow: hidden; }
 .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .panel-header-left { display: flex; align-items: center; gap: 10px; }
@@ -341,6 +341,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .result-text { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
 .result-score { font-size: 28px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
 .result-reff { font-size: 14px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); margin-left: 8px; }
+.result-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.reference-chip { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(10,110,117,0.1); border: 1px solid rgba(10,110,117,0.18); color: var(--teal-300); padding: 4px 7px; border-radius: 999px; }
 .empty-state { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 13px; }
 
 /* Gap / Recommendation Cards */

@@ -1,72 +1,76 @@
 # aiden-demo
 
-Stakeholder-facing interactive demo for the AIDEN (Architecture Intake & Decision Engine) system.
+Stakeholder-facing public demo for AIDEN.
 
 **Live demo:** https://aiden-demo.vercel.app
 
-## Overview
+## What this demo is
+The public demo presents AIDEN as a **governed decision system with bounded agentic assistance**.
 
-This is a self-contained HTML/CSS/JS demo that showcases AIDEN's core capabilities:
-
-- **Architect Agent** — Guided proposal authoring with real-time gap detection
-- **Review Agent** — Four-outcome evaluator (pass/fail/abstain/degrade) with R_eff scoring
-- **Delta Engine** — Computes the minimum path from CONDITIONAL to APPROVE
-- **Architecture Overview** — System design, tier thresholds, and scoring methodology
-The demo uses an intentionally incomplete sample proposal (AI Code Review Assistant at internal-tool tier) to walk through the full proposal-to-gate-decision lifecycle. Findings on the page are flaws in the sample submission, not flaws in AIDEN. Synthetic precedent data and illustrative demo telemetry are used throughout the public experience.
+- **Architect Assist** — proposal shaping, gap detection, clarification prompts
+- **Reviewer Assist** — policy interpretation support, evidence-linked explanations, remediation drafting
+- **Hidden runtime role: Safety Governor / Operational Gate** — tool allowlist enforcement, redaction, budgets, fallback, escalation, unsafe-output blocking
+- **Deterministic gate** — authoritative baseline for policy evaluation, scoring, and gate outcomes
 
 ## Public Demo Contract
+The public demo makes these promises:
 
-- **Provider / model disclosed** — OpenRouter with MiniMax M2.5
-- **Sanitized sample data** — No production or customer proposal data
-- **No autonomous writes** — The demo does not take write actions on external systems
-- **No open-web browsing** — Agent tools are allowlisted and bounded
-- **Human review required** — Outputs are advisory and reviewer-facing
-- **Trace redaction enabled** — Sensitive fields are redacted before display
-- **Deterministic fallback** — When live assist is unavailable, quota-limited, or disabled, the UI falls back cleanly to deterministic mode
-The demo uses a seeded scenario (AI Code Review Assistant at internal-tool tier) to walk through the full proposal-to-gate-decision lifecycle.
+- Sanitized sample data only
+- No autonomous writes
+- No open-web browsing
+- Human review required
+- Deterministic fallback available
+- Tool allowlist enforced
+- Trace redaction enforced
+- Step budget enforced
+- Tool-call budget enforced
+- Time budget enforced
+- Cost/token budget enforced
+- Escalation condition is visible
 
-## Agent Modes
+### Budget envelope
+- **Architect Assist** — step budget: 8, tool-call budget: 4, time budget: 60 seconds, cost/token budget: 4,000 tokens and $0.10
+- **Reviewer Assist** — step budget: 10, tool-call budget: 5, time budget: 90 seconds, cost/token budget: 6,000 tokens and $0.15
 
-Both the Architect and Reviewer tabs support three operating modes:
+### Escalation condition
+The runtime escalates when safety checks fail, budgets are exhausted, confidence stays low, policies conflict, or deterministic fallback is engaged after a live-assist attempt.
 
-- **Deterministic** — Client-side only, no API calls. This is the public-safe default.
-- **Live Assist** — Calls the real aiden-engine API. This path is budget-limited live assist with deterministic fallback if the API is unavailable or quota-limited.
-- **Shadow** — Runs both deterministic and live-assist side-by-side for comparison. This is the other default public evaluation mode.
+## Modes
+- **Deterministic** — authoritative baseline and source of truth
+- **Shadow** — bounded assistive comparison beside the deterministic baseline
+- **Live Assist** — visible bounded assistive path with typed tools, redaction, fallback, and escalation
 
-## Delta Scenarios
+## Runtime evidence shown in the UI
+The demo visibly exposes:
 
-The Delta tab now keeps two narratives visible:
+- mode selected
+- policy lock refs used
+- tools called
+- step count and tool-call count
+- trace id
+- fallback status
+- escalation status
+- safety and budget panel
+- evidence references
+- remediation suggestions
+- confidence and uncertainty markers
 
-- **Remediation-First** — Public default. The best path closes missing controls before considering exceptions.
-- **Exception Intelligence** — Preserves the waiver-heavy scenario as a secondary illustration of scoped exception reasoning.
-
-## API Configuration
-
-The `API_BASE_URL` variable in `app.js` controls the backend:
+## API configuration
+The `API_BASE_URL` variable in `app.js` controls the backend.
 
 - Current: `https://aiden-engine.vercel.app`
-- Set to empty string `''` to force deterministic-only mode (no API calls).
+- Set to empty string `''` to force deterministic-only mode
 
 The backend repo is [modern-literacy/aiden-engine](https://github.com/modern-literacy/aiden-engine).
 
-## Phase F handoff
-
-See `HANDOFF-PHASE-F.md` for the engineering handoff (demo UI updates + Vercel deployment checklist).
-
-## Launch asset
-
-Before a public launch, run a browser smoke test in production across deterministic, shadow, and live-assist modes, then capture a short proof-of-life GIF for the hub README.
-
-## Running Locally
-
-Open `index.html` in a browser. No build step or server required.
+## Running locally
+Open `index.html` in a browser. No build step or server is required.
 
 ## Files
-
-- **`index.html`** — Main page with sidebar navigation, mode toggles, and all tab sections
-- **`app.js`** — Application logic: mode switching, API client, live/shadow rendering, safety panel, trace viewer, deterministic animations
-- **`style.css`** — Dark-mode enterprise design system with responsive layout
+- `index.html` — main UI, contract block, assistive role surfaces, architecture tab
+- `app.js` — mode switching, API client, evidence rendering, safety and trace panels
+- `style.css` — static design system and responsive layout
+- `tests/public-launch.test.mjs` — text-based public contract regression checks
 
 ## Ownership
-
 Owned by the **Developer Relations** team. See `CODEOWNERS` for review assignments.

@@ -34,11 +34,11 @@
       </button>
       <button class="nav-item" data-tab="copilot" onclick="switchTab('copilot')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <span>Architect Agent</span>
+        <span>Architect Assist</span>
       </button>
       <button class="nav-item" data-tab="reviewer" onclick="switchTab('reviewer')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <span>Reviewer Agent</span>
+        <span>Reviewer Assist</span>
       </button>
       <button class="nav-item" data-tab="delta" onclick="switchTab('delta')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
@@ -52,11 +52,11 @@
     <div class="sidebar-footer">
       <div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>.NET 8 + TS + Python</span>
+        <span>1 hub + 7 delivery repos</span>
       </div>
       <div class="sidebar-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span>Policy v2026.03</span>
+        <span>Policy lock v1.0.0</span>
       </div>
     </div>
   </aside>
@@ -68,8 +68,8 @@
     <section class="tab-content active" id="tab-hero">
       <div class="hero-section">
         <div class="hero-eyebrow">Architecture Intake &amp; Decision Engine</div>
-        <h1 class="hero-title">Reduce First-Pass Review Failure<br>for Internal AI Proposals</h1>
-        <p class="hero-desc">AIDEN is the enterprise-specific reasoning layer that sits on top of commodity governance shells. It helps engineering teams author strong proposals and gives human reviewers structured evidence packs instead of slide decks.</p>
+        <h1 class="hero-title">Govern AI Proposals with Deterministic Decisions<br>and Bounded Assistive Review</h1>
+        <p class="hero-desc">AIDEN is a governed decision system for internal AI proposals. The deterministic engine stays authoritative while bounded assistive roles help proposal authors and reviewers work faster with policy-linked evidence, visible controls, and replayable traces.</p>
         <div class="hero-actions">
           <button class="btn-primary" onclick="switchTab('copilot')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -88,13 +88,19 @@
           </div>
           <div class="public-contract-grid">
             <div class="contract-item"><span class="contract-label">Provider / model</span><strong class="contract-value">OpenRouter · MiniMax M2.5</strong></div>
-            <div class="contract-item"><span class="contract-label">Data</span><strong class="contract-value">Sanitized sample data</strong></div>
+            <div class="contract-item"><span class="contract-label">Data</span><strong class="contract-value">Sanitized sample data only</strong></div>
             <div class="contract-item"><span class="contract-label">Writes</span><strong class="contract-value">No autonomous writes</strong></div>
             <div class="contract-item"><span class="contract-label">Web access</span><strong class="contract-value">No open-web browsing</strong></div>
             <div class="contract-item"><span class="contract-label">Review</span><strong class="contract-value">Human review required</strong></div>
-            <div class="contract-item"><span class="contract-label">Trace</span><strong class="contract-value">Trace redaction enabled</strong></div>
+            <div class="contract-item"><span class="contract-label">Trace</span><strong class="contract-value">Trace redaction enforced</strong></div>
             <div class="contract-item"><span class="contract-label">Tools</span><strong class="contract-value">Tool allowlist enforced</strong></div>
-            <div class="contract-item"><span class="contract-label">Fallback</span><strong class="contract-value">Deterministic fallback</strong></div>
+            <div class="contract-item"><span class="contract-label">Fallback</span><strong class="contract-value">Deterministic fallback available</strong></div>
+            <div class="contract-item"><span class="contract-label">Step Budget</span><strong class="contract-value">Architect 8 · Reviewer 10</strong></div>
+            <div class="contract-item"><span class="contract-label">Tool-Call Budget</span><strong class="contract-value">Architect 4 · Reviewer 5</strong></div>
+            <div class="contract-item"><span class="contract-label">Time Budget</span><strong class="contract-value">60s / 90s</strong></div>
+            <div class="contract-item"><span class="contract-label">Cost/Token Budget</span><strong class="contract-value">4k/6k tokens · $0.10/$0.15</strong></div>
+            <div class="contract-item"><span class="contract-label">Escalation Condition</span><strong class="contract-value">Safety flag, budget hit, low confidence, or policy conflict</strong></div>
+            <div class="contract-item"><span class="contract-label">Policy Lock</span><strong class="contract-value">Pinned refs visible in runtime panels</strong></div>
           </div>
         </div>
         <div class="hero-grid">
@@ -102,36 +108,36 @@
             <div class="hero-card-icon" style="background:rgba(10,110,117,0.15);color:#0A6E75;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <h3>Architect Agent</h3>
-            <p>Guides teams through building proposals that will pass review. Catches gaps in real time, suggests remediations, generates architecture views before any reviewer sees the work.</p>
+            <h3>Architect Assist</h3>
+            <p>Proposal shaping, gap detection, and clarification prompts. Helps authors close missing evidence before the human reviewer ever opens the pack.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(212,168,67,0.15);color:#D4A843;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
-            <h3>Reviewer Agent</h3>
-            <p>Four-outcome evaluator (pass / fail / abstain / degrade) runs against pinned policies. Produces R_eff scores, evidence packs, and explicit gate decisions with human oversight.</p>
+            <h3>Reviewer Assist</h3>
+            <p>Policy interpretation support, evidence-linked explanations, and remediation drafting. Helps reviewers interpret bounded live runs without changing who owns the decision.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3>Delta Engine</h3>
-            <p>Computes the minimum set of changes to reach APPROVE. Ranks items by R_eff impact per unit effort. Searches exception history for viable waiver paths.</p>
+            <h3>Deterministic Gate</h3>
+            <p>The authoritative baseline. Pinned policies, explicit guard outcomes, gate logic, and replayable evidence remain deterministic even when live assist is enabled.</p>
           </div>
           <div class="hero-card">
             <div class="hero-card-icon" style="background:rgba(34,197,94,0.1);color:#22c55e;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
             </div>
-            <h3>Exception Intelligence</h3>
-            <p>Learns from prior approvals, waivers, and rejections. Surfaces how similar situations were resolved, with estimated approval probability and suggested conditions.</p>
+            <h3>Hidden Runtime Role: Safety Governor / Operational Gate</h3>
+            <p>Enforces the tool allowlist, budgets, redaction, deterministic fallback, and human escalation. It is visible as a control layer, not marketed as a free-roaming agent.</p>
           </div>
         </div>
         <div class="moat-banner">
-          <div class="moat-label">The Moat</div>
+          <div class="moat-label">System posture</div>
           <div class="moat-text">
-            <strong>Buy the shell, build the brain.</strong> ServiceNow, LeanIX, Backstage, Credo AI, IBM watsonx, Microsoft Foundry handle workflow, catalogs, and generic scorecards. AIDEN owns what they can't ship: <strong>enterprise-specific policy translation, exception intelligence, and proposal-to-approval delta reasoning</strong> &mdash; institution-specific decision memory that gets more valuable over time.
-            <br><span style="font-size:11px;color:var(--text-muted);font-style:italic;">Metric projections are illustrative demo telemetry only.</span>
+            <strong>AIDEN is not a generic LLM demo.</strong> The deterministic engine stays authoritative, the bounded assistive roles remain advisory, and the publication layer explains what happened using policy-linked evidence, traces, and review-ready artifacts.
+            <br><span style="font-size:11px;color:var(--text-muted);font-style:italic;">Live-assist outputs are assistive explanations; gate authority remains deterministic and human-gated.</span>
           </div>
         </div>
         <div class="demo-context">
@@ -172,7 +178,7 @@
       <div class="mode-toggle-bar">
         <div class="panel-header-left">
           <div class="agent-indicator copilot-agent"></div>
-          <div><div class="panel-title">Architect Agent</div><div class="panel-subtitle">Proposal Builder &middot; Gap Detection</div></div>
+          <div><div class="panel-title">Architect Assist</div><div class="panel-subtitle">Proposal shaping &middot; Gap detection &middot; Clarification prompts</div></div>
         </div>
         <div class="mode-toggle" id="architectModeToggle">
           <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','architect')">Deterministic</button>
@@ -216,7 +222,7 @@
       <!-- Live-Assist view -->
       <div class="live-result-view hidden" id="architectLiveView">
         <div class="live-result-container">
-          <div class="loading-overlay hidden" id="architectLoading"><div class="spinner"></div><span>Running Architect Agent&hellip; this may take 10&ndash;30s</span></div>
+          <div class="loading-overlay hidden" id="architectLoading"><div class="spinner"></div><span>Running Architect Assist&hellip; this may take 10&ndash;30s</span></div>
           <div id="architectLiveResult"></div>
         </div>
       </div>
@@ -230,11 +236,11 @@
       </div>
 
       <!-- Safety & Trace panels -->
-      <div class="safety-panel hidden" id="architectSafetyPanel">
+      <div class="safety-panel hidden expanded" id="architectSafetyPanel">
         <button class="safety-panel-toggle" onclick="togglePanel('architectSafetyPanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Safety &amp; Budget <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="safety-panel-body" id="architectSafetyBody"></div>
       </div>
-      <div class="trace-panel hidden" id="architectTracePanel">
+      <div class="trace-panel hidden expanded" id="architectTracePanel">
         <button class="trace-panel-toggle" onclick="togglePanel('architectTracePanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Agent Trace <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="trace-panel-body" id="architectTraceBody"></div>
       </div>
@@ -245,7 +251,7 @@
       <div class="mode-toggle-bar">
         <div class="panel-header-left">
           <div class="agent-indicator reviewer-agent"></div>
-          <div><div class="panel-title">Reviewer Agent</div><div class="panel-subtitle">Four-Outcome Evaluator &middot; Pinned Policies v2026.03</div></div>
+          <div><div class="panel-title">Reviewer Assist</div><div class="panel-subtitle">Evidence-linked interpretation &middot; Pinned policy refs</div></div>
         </div>
         <div class="mode-toggle" id="reviewerModeToggle">
           <button class="mode-btn active" data-mode="deterministic" onclick="setMode('deterministic','reviewer')">Deterministic</button>
@@ -283,7 +289,7 @@
       <!-- Live-Assist view -->
       <div class="live-result-view hidden" id="reviewerLiveView">
         <div class="live-result-container">
-          <div class="loading-overlay hidden" id="reviewerLoading"><div class="spinner"></div><span>Running Reviewer Agent&hellip; this may take 10&ndash;30s</span></div>
+          <div class="loading-overlay hidden" id="reviewerLoading"><div class="spinner"></div><span>Running Reviewer Assist&hellip; this may take 10&ndash;30s</span></div>
           <div id="reviewerLiveResult"></div>
         </div>
       </div>
@@ -297,11 +303,11 @@
       </div>
 
       <!-- Safety & Trace panels -->
-      <div class="safety-panel hidden" id="reviewerSafetyPanel">
+      <div class="safety-panel hidden expanded" id="reviewerSafetyPanel">
         <button class="safety-panel-toggle" onclick="togglePanel('reviewerSafetyPanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Safety &amp; Budget <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="safety-panel-body" id="reviewerSafetyBody"></div>
       </div>
-      <div class="trace-panel hidden" id="reviewerTracePanel">
+      <div class="trace-panel hidden expanded" id="reviewerTracePanel">
         <button class="trace-panel-toggle" onclick="togglePanel('reviewerTracePanel')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Agent Trace <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="trace-panel-body" id="reviewerTraceBody"></div>
       </div>
@@ -338,14 +344,14 @@
     <!-- ================ ARCHITECTURE TAB ================ -->
     <section class="tab-content" id="tab-architecture">
       <div class="arch-layout">
-        <div class="arch-header"><h2 class="arch-title">System Architecture</h2><p class="arch-subtitle">Buy the shell, build the brain &middot; .NET 8 + TypeScript</p></div>
+        <div class="arch-header"><h2 class="arch-title">System Architecture</h2><p class="arch-subtitle">Runtime decides &middot; publication explains &middot; live assist stays bounded</p></div>
         <div class="arch-stack-banner">
-          <div class="stack-item"><span class="stack-label">API Layer</span><span class="stack-value">.NET 8 Minimal API</span></div>
-          <div class="stack-item"><span class="stack-label">Engine</span><span class="stack-value">TypeScript / Node.js</span></div>
-          <div class="stack-item"><span class="stack-label">Policies</span><span class="stack-value">YAML (git-versioned)</span></div>
-          <div class="stack-item"><span class="stack-label">Infra</span><span class="stack-value">Docker Compose</span></div>
-          <div class="stack-item"><span class="stack-label">Tooling</span><span class="stack-value">Python 3.12</span></div>
-          <div class="stack-item"><span class="stack-label">Evaluator</span><span class="stack-value">4-outcome guard</span></div>
+          <div class="stack-item"><span class="stack-label">Decision core</span><span class="stack-value">Deterministic evaluator + gate</span></div>
+          <div class="stack-item"><span class="stack-label">Assistive overlay</span><span class="stack-value">Architect Assist / Reviewer Assist</span></div>
+          <div class="stack-item"><span class="stack-label">Policy lock</span><span class="stack-value">Pinned git refs + sync</span></div>
+          <div class="stack-item"><span class="stack-label">Trace / replay</span><span class="stack-value">Redacted public-safe evidence</span></div>
+          <div class="stack-item"><span class="stack-label">Contract</span><span class="stack-value">Schema-first + tool-allowlisted</span></div>
+          <div class="stack-item"><span class="stack-label">Publication</span><span class="stack-value">README, docs, demo surfaces</span></div>
         </div>
         <div class="tier-grid">
           <div class="tier-card active-tier"><div class="tier-name">internal-tool</div><div class="tier-thresholds"><div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.75</span></div><div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.40</span></div><div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">180 days</span></div></div></div>
@@ -353,10 +359,10 @@
           <div class="tier-card"><div class="tier-name">critical-infrastructure</div><div class="tier-thresholds"><div class="tier-threshold"><span>Approve</span><span class="tier-threshold-value">&ge; 0.95</span></div><div class="tier-threshold"><span>Block</span><span class="tier-threshold-value">&lt; 0.70</span></div><div class="tier-threshold"><span>Evidence</span><span class="tier-threshold-value">30 days</span></div></div></div>
         </div>
         <div class="arch-details">
-          <div class="arch-detail-card"><h4>What AIDEN Owns (The Brain)</h4><p>Enterprise-specific reasoning no vendor can ship:</p><ul><li><strong>Policy interpretation</strong> &mdash; Your tiers, waiver semantics, tier-rule mappings.</li><li><strong>Exception history</strong> &mdash; Which exception paths have been approved, by whom, with what rationale.</li><li><strong>Waiver semantics</strong> &mdash; What constitutes a valid waiver, who can grant it, how long it lasts.</li><li><strong>Authoring logic</strong> &mdash; Minimum delta to move a proposal from Draft to ReviewReady.</li><li><strong>SoD paths</strong> &mdash; Separation-of-duties rules tied to your actual org structure.</li></ul></div>
-          <div class="arch-detail-card"><h4>What We Integrate (The Shell)</h4><p>Commodity products that handle surfaces and generic governance:</p><ul><li><strong>ServiceNow</strong> &mdash; Workflow routing, ticket management, approval chains.</li><li><strong>LeanIX</strong> &mdash; Architecture catalog, dependency mapping, portfolio views.</li><li><strong>Backstage</strong> &mdash; Developer portal, service catalog, tech radar.</li><li><strong>Credo AI / watsonx</strong> &mdash; Generic AI scorecards, policy-pack scaffolding.</li></ul></div>
-          <div class="arch-detail-card"><h4>Guard &rarr; Gate Separation</h4><p>Guards and gates are deliberately separate concerns:</p><ul><li><strong>Guard</strong> &mdash; What the evidence says. Four outcomes: pass, fail, abstain, degrade.</li><li><strong>Gate</strong> &mdash; What to do about it. Thresholds, SoD checks, overrides, waivers.</li><li><strong>Fold behavior</strong> &mdash; Engine errors fold to BLOCK with human escalation.</li><li><strong>Decision log</strong> &mdash; Every gate decision records outcome, rationale, tier, waivers applied.</li></ul></div>
-          <div class="arch-detail-card"><h4>R_eff Scoring</h4><p>Effective reliability computed per section, overall = weakest link:</p><ul><li><strong>R_raw</strong> &mdash; passed / (passed + failed + degraded). Abstained rules excluded.</li><li><strong>Penalty</strong> &mdash; critical_fails &times; 0.05 + high_fails &times; 0.03.</li><li><strong>Degradation</strong> &mdash; degraded_count &times; 0.02.</li><li><strong>R_eff</strong> &mdash; max(0, R_raw &minus; penalty &minus; degradation). Display: <code>round(R_eff &times; 100)</code></li><li><strong>Overall</strong> &mdash; min(R_eff_i) across all sections. Weakest link, not average.</li></ul></div>
+          <div class="arch-detail-card"><h4>Deterministic decision core</h4><p>The deterministic path remains authoritative.</p><ul><li><strong>Policy evaluation</strong> &mdash; Pinned rules produce pass, fail, abstain, and degrade outcomes.</li><li><strong>Gate logic</strong> &mdash; Thresholds, fold behavior, and human review requirements stay explicit.</li><li><strong>Delta logic</strong> &mdash; Remediation paths are derived from bottlenecks, not hidden model intuition.</li><li><strong>Replay</strong> &mdash; Public-safe traces and evidence references make outcomes inspectable.</li></ul></div>
+          <div class="arch-detail-card"><h4>Bounded assistive overlay</h4><p>Live assist is constrained by visible runtime controls.</p><ul><li><strong>Architect Assist</strong> &mdash; Shapes proposals, detects gaps, asks clarifying questions.</li><li><strong>Reviewer Assist</strong> &mdash; Interprets policies, explains evidence, drafts remediation suggestions.</li><li><strong>Safety Governor</strong> &mdash; Enforces tool allowlists, budgets, redaction, fallback, and escalation.</li><li><strong>Authority</strong> &mdash; Assistive outputs remain advisory.</li></ul></div>
+          <div class="arch-detail-card"><h4>Guard &rarr; Gate &rarr; Review</h4><p>Evidence and decisions are separated on purpose.</p><ul><li><strong>Guard</strong> &mdash; What the evidence says.</li><li><strong>Gate</strong> &mdash; What the deterministic policy engine decides.</li><li><strong>Review</strong> &mdash; What the human reviewer confirms, escalates, or rejects.</li><li><strong>Fold behavior</strong> &mdash; Errors and unsafe live runs fall back to deterministic handling.</li></ul></div>
+          <div class="arch-detail-card"><h4>Publication layer</h4><p>The demo, README, and docs are publication surfaces, not the scoring core.</p><ul><li><strong>FPF views</strong> &mdash; Functional, Procedural, Role-Enactor, and Module-Interface.</li><li><strong>Governance views</strong> &mdash; Risk, control, compliance, and operations remain separate.</li><li><strong>Public contract</strong> &mdash; Safety envelope and budgets are visible, not implied.</li><li><strong>Evidence-first story</strong> &mdash; Mode, policy refs, traces, and remediation are all inspectable.</li></ul></div>
         </div>
       </div>
     </section>
